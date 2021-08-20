@@ -5,4 +5,5 @@ export class GetArticleFilterDto {
   stId?: string;
   nickname?: string;
   category?: CafeCategoryEnum;
+  page = 1;
 }

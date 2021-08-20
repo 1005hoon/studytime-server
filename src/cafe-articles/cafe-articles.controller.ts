@@ -1,5 +1,6 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
@@ -9,6 +10,9 @@ import {
   Patch,
   Query,
   UseGuards,
+  UseInterceptors,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import { PaginationResult } from 'src/utils/pagination/paginator';
 import { CafeArticlesService } from './cafe-articles.service';
@@ -21,13 +25,15 @@ export class CafeArticlesController {
   constructor(private readonly articlesService: CafeArticlesService) {}
 
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
+  @UsePipes(new ValidationPipe({ transform: true }))
   findAll(
     @Query() filter: GetArticleFilterDto,
   ): Promise<PaginationResult<CafeArticle>> {
     return this.articlesService.getArticlesWithPagination(filter, {
       count: true,
-      currentPage: 1,
-      limit: 25,
+      currentPage: filter.page,
+      limit: 10,
     });
   }
 

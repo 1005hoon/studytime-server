@@ -36,6 +36,7 @@ export async function paginate<T>(
   },
 ) {
   const offset = (options.currentPage - 1) * options.limit;
+
   const data = await queryBuilder.limit(options.limit).offset(offset).getMany();
 
   return new PaginationResult({
