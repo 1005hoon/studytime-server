@@ -2,7 +2,7 @@ import { Expose } from 'class-transformer';
 import { SelectQueryBuilder } from 'typeorm';
 
 export interface PaginationOption {
-  limit: number;
+  limit?: number;
   currentPage: number;
   count?: boolean;
 }

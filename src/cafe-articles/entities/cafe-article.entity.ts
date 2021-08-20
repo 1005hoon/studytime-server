@@ -17,6 +17,10 @@ import { CafeReply } from './cafe-reply.entity';
 )
 @Entity('cafe_article', { schema: 'studytime' })
 export class CafeArticle {
+  constructor(partial?: Partial<CafeArticle>) {
+    Object.assign(this, partial);
+  }
+
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
