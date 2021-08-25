@@ -33,7 +33,7 @@ export class CafeArticlesController {
     return this.articlesService.getArticlesWithPagination(filter, {
       count: true,
       currentPage: filter.page,
-      limit: 10,
+      limit: 15,
     });
   }
 
