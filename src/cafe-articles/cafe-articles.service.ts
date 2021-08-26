@@ -59,6 +59,11 @@ export class CafeArticlesService {
     return query;
   }
 
+  public getLastFiveArticlesByUserStId(stId: string) {
+    const query = this.getBaseQuery();
+    return query.andWhere('article.stId = :stId', { stId }).limit(5).getMany();
+  }
+
   public async getArticlesWithPagination(
     filter: GetArticleFilterDto,
     paginationOption: PaginationOption,

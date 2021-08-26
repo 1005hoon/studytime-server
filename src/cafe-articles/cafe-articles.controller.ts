@@ -9,7 +9,6 @@ import {
   ParseIntPipe,
   Patch,
   Query,
-  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,

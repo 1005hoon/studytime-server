@@ -10,5 +10,6 @@ import { CafeReply } from './entities/cafe-reply.entity';
   imports: [TypeOrmModule.forFeature([CafeArticle, CafeCategory, CafeReply])],
   controllers: [CafeArticlesController],
   providers: [CafeArticlesService],
+  exports: [CafeArticlesService],
 })
 export class CafeArticlesModule {}
