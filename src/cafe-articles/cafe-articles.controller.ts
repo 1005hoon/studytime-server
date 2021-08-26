@@ -33,7 +33,7 @@ export class CafeArticlesController {
     return this.articlesService.getArticlesWithPagination(filter, {
       count: true,
       currentPage: filter.page,
-      limit: 15,
+      limit: filter.limit,
     });
   }
 
@@ -49,9 +49,7 @@ export class CafeArticlesController {
   }
 
   @Patch(':id')
-  // @UseGuards()
   async update(
-    // @GetUser() user: User,
     @Param('id', ParseIntPipe) id: number,
     @Body() updateArticleDto: UpdateArticleDto,
   ): Promise<CafeArticle> {

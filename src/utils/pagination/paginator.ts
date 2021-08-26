@@ -30,10 +30,7 @@ export class PaginationResult<T> {
 
 export async function paginate<T>(
   queryBuilder: SelectQueryBuilder<T>,
-  options: PaginationOption = {
-    limit: 25,
-    currentPage: 1,
-  },
+  options: PaginationOption,
 ) {
   const offset = (options.currentPage - 1) * options.limit;
 
