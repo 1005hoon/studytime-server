@@ -8,18 +8,20 @@ export class SlackController {
   test(@Body() body) {
     const { actions, user, channel, original_message } = body.payload;
 
-    const { name: actionName, value: actionPayload } = actions[0];
-    const userName = user.name;
-    const channelId = channel.id;
-    const { ts, attachments } = original_message;
+    // const { name: actionName, value: actionPayload } = actions[0];
+    // const userName = user.name;
+    // const channelId = channel.id;
+    // const { ts, attachments } = original_message;
 
-    return this.slackService.handleInteractiveMessage(
-      channelId,
-      ts,
-      userName,
-      actionName,
-      actionPayload,
-      attachments,
-    );
+    // return this.slackService.handleInteractiveMessage(
+    //   channelId,
+    //   ts,
+    //   userName,
+    //   actionName,
+    //   actionPayload,
+    //   attachments,
+    // );
+    console.log({ actions, user, channel, original_message });
+    return { actions, user, channel, original_message };
   }
 }
