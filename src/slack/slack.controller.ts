@@ -21,6 +21,13 @@ export class SlackController {
       console.log('--------------------------------');
       console.log('PAYLOAD TO JSON 파싱 성공');
       console.log({ actions, channel, user, message_ts, attachments });
+
+      console.log(typeof payloadToJSON);
+
+      console.log('--------------------------------');
+      console.log('객체화 하기');
+      const objectified = { ...payloadToJSON };
+      console.log(objectified);
     } catch (error) {
       console.log('payload to json 꺼내오기 에러');
     }
