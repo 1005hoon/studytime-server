@@ -25,16 +25,6 @@ export class SlackController {
       console.log('payload to json 꺼내오기 에러');
     }
 
-    try {
-      const { actions, channel, user, message_ts, attachments } =
-        payloadToObject;
-      console.log('--------------------------------');
-      console.log('PAYLOAD TO Object 파싱 성공');
-      console.log({ actions, channel, user, message_ts, attachments });
-    } catch (error) {
-      console.log('payload to object 꺼내오기 에러');
-    }
-
     // const { name: actionName, value: actionPayload } = actions[0];
     // const userName = user.name;
     // const channelId = channel.id;
