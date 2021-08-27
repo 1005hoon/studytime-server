@@ -1,11 +1,20 @@
-import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  HttpException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { SlackService } from 'src/slack/slack.service';
 import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 
 @Injectable()
 export class AdminUserService {
-  constructor(private readonly slackService: SlackService) {}
+  constructor(
+    @Inject(forwardRef(() => SlackService))
+    private readonly slackService: SlackService,
+  ) {}
 
   public findAllAdminUsers(limit?: number, pageToken?: string) {
     return admin.auth().listUsers(limit, pageToken);
@@ -36,7 +45,6 @@ export class AdminUserService {
   }
 
   public createUser(userData: CreateAdminUserDto) {
-    return userData;
-    // return this.slackService.postTextMessage('a', 'b');
+    return admin.auth().createUser({ ...userData });
   }
 }
