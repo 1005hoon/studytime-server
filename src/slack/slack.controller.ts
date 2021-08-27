@@ -6,7 +6,10 @@ export class SlackController {
   constructor(private readonly slackService: SlackService) {}
   @Post()
   test(@Body() body) {
-    const { actions, user, channel, original_message } = body.payload;
+    console.log('--------------------------------');
+    console.log(body);
+    console.log('--------------------------------');
+    console.log(body.payload);
 
     // const { name: actionName, value: actionPayload } = actions[0];
     // const userName = user.name;
@@ -21,7 +24,6 @@ export class SlackController {
     //   actionPayload,
     //   attachments,
     // );
-    console.log({ actions, user, channel, original_message });
-    return { actions, user, channel, original_message };
+    return 'hi';
   }
 }
