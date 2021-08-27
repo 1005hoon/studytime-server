@@ -4,8 +4,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 export class SlackController {
   @Post()
   test(@Body() body) {
-    console.log(JSON.parse(body));
-
+    console.log(body.payload);
     return body;
   }
 }

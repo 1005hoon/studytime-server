@@ -20,61 +20,18 @@ export class SlackService {
           color: '#3aa3e3',
           actions: [
             {
-              name: 'register',
+              name: 'registration',
               text: '계정생성',
               type: 'button',
               style: 'primary',
               value: `${JSON.stringify(dto)}`,
             },
             {
-              name: 'no',
-              text: 'No',
+              name: 'registration',
+              text: '요청삭제',
               style: 'danger',
               type: 'button',
-              value: 'bad',
-            },
-          ],
-        },
-      ],
-    });
-  }
-
-  postTextMessage(channel: string, text: string) {
-    // return this.webClient.chat.postMessage({ channel, text });
-    return this.webClient.chat.postMessage({
-      text: 'Would you like to play a game?',
-      channel: '개발',
-      attachments: [
-        {
-          text: 'Choose a game to play',
-          fallback: 'You are unable to choose a game',
-          callback_id: 'wopr_game',
-          color: '#3AA3E3',
-          actions: [
-            {
-              name: 'game',
-              text: 'Chess',
-              type: 'button',
-              value: 'chess',
-            },
-            {
-              name: 'game',
-              text: "Falken's Maze",
-              type: 'button',
-              value: 'maze',
-            },
-            {
-              name: 'game',
-              text: 'Thermonuclear War',
-              style: 'danger',
-              type: 'button',
-              value: 'war',
-              confirm: {
-                title: 'Are you sure?',
-                text: "Wouldn't you prefer a good game of chess?",
-                ok_text: 'Yes',
-                dismiss_text: 'No',
-              },
+              value: null,
             },
           ],
         },

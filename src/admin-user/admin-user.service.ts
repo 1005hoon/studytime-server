@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { SlackService } from 'src/slack/slack.service';
 import { CreateAdminUserDto } from './dto/create-admin-user.dto';
@@ -23,11 +23,20 @@ export class AdminUserService {
     );
   }
 
-  public sendSlackNotificationToValidateReigstration(dto: CreateAdminUserDto) {
-    return this.slackService.sendSlackMessageForNewAdminRegistration(dto);
+  public async sendSlackNotificationToValidateReigstration(
+    dto: CreateAdminUserDto,
+  ) {
+    try {
+      const response =
+        await this.slackService.sendSlackMessageForNewAdminRegistration(dto);
+      return response.ok;
+    } catch (error) {
+      throw new HttpException(error.message, 400);
+    }
   }
 
   public createUser(userData: CreateAdminUserDto) {
-    return this.slackService.postTextMessage('a', 'b');
+    return userData;
+    // return this.slackService.postTextMessage('a', 'b');
   }
 }
