@@ -6,32 +6,6 @@ export class SlackController {
   constructor(private readonly slackService: SlackService) {}
   @Post()
   test(@Body() body) {
-    // console.log('--------------------------------');
-    // console.log(body);
-    // console.log('--------------------------------');
-    // console.log(body.payload);
-
-    // console.log('--------------------------------');
-    // console.log('PAYLOAD TO JSON');
-    // const payloadToJSON = JSON.parse(body.payload);
-    // console.log(payloadToJSON);
-
-    // try {
-    //   const { actions, channel, user, message_ts, attachments } = payloadToJSON;
-    //   console.log('--------------------------------');
-    //   console.log('PAYLOAD TO JSON 파싱 성공');
-    //   console.log({ actions, channel, user, message_ts, attachments });
-
-    //   console.log(typeof payloadToJSON);
-
-    //   console.log('--------------------------------');
-    //   console.log('객체화 하기');
-    //   const objectified = { ...payloadToJSON };
-    //   console.log(objectified);
-    // } catch (error) {
-    //   console.log('payload to json 꺼내오기 에러');
-    // }
-
     const payload = {
       ...JSON.parse(body.payload),
     };

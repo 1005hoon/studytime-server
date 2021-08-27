@@ -64,7 +64,7 @@ export class SlackService {
         );
 
       default:
-        null;
+        return null;
     }
   }
 
