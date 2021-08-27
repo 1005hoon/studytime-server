@@ -15,10 +15,6 @@ export class SlackController {
     console.log('PAYLOAD TO JSON');
     const payloadToJSON = JSON.parse(body.payload);
     console.log(payloadToJSON);
-    console.log('--------------------------------');
-    console.log('PAYLOAD TO Object');
-    const payloadToObject = payloadToJSON.toObject();
-    console.log(payloadToObject);
 
     try {
       const { actions, channel, user, message_ts, attachments } = payloadToJSON;
