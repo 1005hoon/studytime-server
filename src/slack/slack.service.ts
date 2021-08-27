@@ -53,7 +53,6 @@ export class SlackService {
     userName,
     actionName,
     actionPayload,
-    attachments,
   ) {
     switch (actionName) {
       case SlackInteractiveMessageActionsEnum.REGISTRATION:

@@ -49,26 +49,12 @@ export class SlackController {
     const userName = user.name;
     const channelName = channel.name;
 
-    console.log('----------------------------');
-    console.log(actionName);
-    console.log(actionPayload);
-    console.log(userName);
-    console.log(channelName);
-    console.log(original_message);
-
-    // const { name: actionName, value: actionPayload } = actions[0];
-    // const userName = user.name;
-    // const channelId = channel.id;
-    // const { ts, attachments } = original_message;
-
-    // return this.slackService.handleInteractiveMessage(
-    //   channelId,
-    //   ts,
-    //   userName,
-    //   actionName,
-    //   actionPayload,
-    //   attachments,
-    // );
-    return 'hi';
+    return this.slackService.handleInteractiveMessage(
+      channelName,
+      message_ts,
+      userName,
+      actionName,
+      actionPayload,
+    );
   }
 }
