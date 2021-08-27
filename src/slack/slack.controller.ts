@@ -37,14 +37,6 @@ export class SlackController {
     };
     const { actions, channel, user, message_ts, original_message } = payload;
 
-    console.log({
-      actions,
-      channel,
-      user,
-      message_ts,
-      original_message,
-    });
-
     const { name: actionName, value: actionPayload } = actions[0];
     const userName = user.name;
     const channelName = channel.name;

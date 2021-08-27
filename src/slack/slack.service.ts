@@ -75,6 +75,8 @@ export class SlackService {
     payload,
   ) {
     const registrationData = JSON.parse(payload);
+    console.log('registrationData:', registrationData);
+
     if (!payload) {
       const attachments = [
         {
@@ -86,7 +88,9 @@ export class SlackService {
     }
 
     try {
-      await this.adminUserService.createUser(registrationData);
+      const result = await this.adminUserService.createUser(registrationData);
+      console.log('user created');
+      console.log(result);
     } catch (error) {
       throw new HttpException(error.message, 400);
     }
