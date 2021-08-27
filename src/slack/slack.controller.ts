@@ -15,6 +15,29 @@ export class SlackController {
     console.log('PAYLOAD TO JSON');
     const payloadToJSON = JSON.parse(body.payload);
     console.log(payloadToJSON);
+    console.log('--------------------------------');
+    console.log('PAYLOAD TO Object');
+    const payloadToObject = payloadToJSON.toObject();
+    console.log(payloadToObject);
+
+    try {
+      const { actions, channel, user, message_ts, attachments } = payloadToJSON;
+      console.log('--------------------------------');
+      console.log('PAYLOAD TO JSON 파싱 성공');
+      console.log({ actions, channel, user, message_ts, attachments });
+    } catch (error) {
+      console.log('payload to json 꺼내오기 에러');
+    }
+
+    try {
+      const { actions, channel, user, message_ts, attachments } =
+        payloadToObject;
+      console.log('--------------------------------');
+      console.log('PAYLOAD TO Object 파싱 성공');
+      console.log({ actions, channel, user, message_ts, attachments });
+    } catch (error) {
+      console.log('payload to object 꺼내오기 에러');
+    }
 
     // const { name: actionName, value: actionPayload } = actions[0];
     // const userName = user.name;
