@@ -23,12 +23,13 @@ export class SlackService {
               name: 'register',
               text: '계정생성',
               type: 'button',
-
+              style: 'primary',
               value: `${JSON.stringify(dto)}`,
             },
             {
               name: 'no',
               text: 'No',
+              style: 'danger',
               type: 'button',
               value: 'bad',
             },

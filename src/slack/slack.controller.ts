@@ -4,7 +4,7 @@ import { Body, Controller, Post } from '@nestjs/common';
 export class SlackController {
   @Post()
   test(@Body() body) {
-    console.log('hi');
+    console.log('이거 왜안됨');
     console.log(body);
     return 'hi';
   }
