@@ -5,13 +5,15 @@ import {
   Get,
   NotFoundException,
   Param,
-  ParseIntPipe,
   Patch,
   Query,
+  UseGuards,
   UseInterceptors,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+
+import { FirebaseAuthGuard } from 'src/authentication/guards/firebase-auth.guard';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { UsersService } from './users.service';
@@ -37,6 +39,7 @@ export class UsersController {
   }
 
   @Patch(':stId')
+  @UseGuards(FirebaseAuthGuard)
   async update(
     @Param('stId') stId: string,
     @Body() updateUserDto: UpdateUserDto,
