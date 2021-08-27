@@ -10,10 +10,7 @@ export class SlackController {
     console.log(body);
     console.log('--------------------------------');
     console.log(body.payload);
-    console.log('--------------------------------');
-    console.log('PAYLOAD TO OBJECT');
-    const payloadToObject = body.payload.toObject();
-    console.log(payloadToObject);
+
     console.log('--------------------------------');
     console.log('PAYLOAD TO JSON');
     const payloadToJSON = body.payload.toJSON();
