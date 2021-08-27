@@ -84,7 +84,19 @@ export class SlackService {
           color: '#e74c3c',
         },
       ];
-      return this.webClient.chat.update({ channel, ts, attachments });
+
+      try {
+        const result = await this.webClient.chat.update({
+          channel,
+          ts,
+          attachments,
+        });
+        console.log('슬랙 메시지 수정 완료');
+        return result;
+      } catch (error) {
+        console.log('슬랙 메시지 수정 실패');
+        console.log(error);
+      }
     }
 
     try {
@@ -92,6 +104,8 @@ export class SlackService {
       console.log('user created');
       console.log(result);
     } catch (error) {
+      console.log(error);
+
       throw new HttpException(error.message, 400);
     }
 
@@ -102,6 +116,17 @@ export class SlackService {
       },
     ];
 
-    return this.webClient.chat.update({ channel, ts, attachments });
+    try {
+      const result = await this.webClient.chat.update({
+        channel,
+        ts,
+        attachments,
+      });
+      console.log('슬랙 메시지 수정 완료');
+      return result;
+    } catch (error) {
+      console.log('슬랙 메시지 수정 실패');
+      console.log(error);
+    }
   }
 }
