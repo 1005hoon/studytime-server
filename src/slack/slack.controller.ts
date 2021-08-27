@@ -13,7 +13,7 @@ export class SlackController {
 
     console.log('--------------------------------');
     console.log('PAYLOAD TO JSON');
-    const payloadToJSON = body.payload.toJSON();
+    const payloadToJSON = JSON.parse(body.payload);
     console.log(payloadToJSON);
 
     // const { name: actionName, value: actionPayload } = actions[0];
