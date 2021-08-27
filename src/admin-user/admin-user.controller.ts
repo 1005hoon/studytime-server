@@ -1,7 +1,7 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
-import { CurrentUser } from 'src/authentication/decorators/current-user.decorator';
+import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
 import { FirebaseAuthGuard } from 'src/authentication/guards/firebase-auth.guard';
 import { AdminUserService } from './admin-user.service';
+import { CreateAdminUserDto } from './dto/create-admin-user.dto';
 import { GetAdminUsersDto } from './dto/get-admin-users.dto';
 
 @Controller('admin-users')
@@ -17,9 +17,15 @@ export class AdminUserController {
     );
   }
 
-  @Get('/test')
-  @UseGuards(FirebaseAuthGuard)
-  testRoute(@CurrentUser() user) {
-    return 'success';
+  @Post('/validations')
+  create(@Body() createAdminUserDto: CreateAdminUserDto) {
+    return this.adminUserService.sendSlackNotificationToValidateReigstration(
+      createAdminUserDto,
+    );
+  }
+
+  @Post('/test')
+  testSlackNotificationForRegistrationValidation() {
+    return 'hi';
   }
 }
