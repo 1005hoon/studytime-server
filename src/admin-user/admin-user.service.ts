@@ -45,6 +45,8 @@ export class AdminUserService {
   }
 
   public createUser(userData: CreateAdminUserDto) {
-    return admin.auth().createUser({ ...userData });
+    return admin
+      .auth()
+      .createUser({ ...userData, photoURL: `${userData.photoUrl}` });
   }
 }
