@@ -25,37 +25,36 @@ export class SlackService {
     try {
       await this.adminUserService.checkDuplicateEmail(dto.email);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      return this.webClient.chat.postMessage({
+        channel: '개발',
+        text: '동기부여 어드민:',
+        attachments: [
+          {
+            title: `${dto.displayName}님이 어드민 가입을 희망합니다`,
+            fallback: `${dto.displayName}님이 어드민 가입을 희망합니다`,
+            callback_id: `${dto.email}|${dto.displayName}`,
+            color: '#6800ff',
+            actions: [
+              {
+                name: SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED,
+                text: '수락',
+                type: 'button',
+                style: 'primary',
+                value: `${JSON.stringify({ ...dto })}`,
+              },
+              {
+                name: SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED,
+                text: '거부',
+                style: 'danger',
+                type: 'button',
+                value: `${JSON.stringify({ email: dto.email })}`,
+              },
+            ],
+          },
+        ],
+      });
+      // throw new BadRequestException(error.message);
     }
-
-    return this.webClient.chat.postMessage({
-      channel: '개발',
-      text: '동기부여 어드민:',
-      attachments: [
-        {
-          title: `${dto.displayName}님이 어드민 가입을 희망합니다`,
-          fallback: `${dto.displayName}님이 어드민 가입을 희망합니다`,
-          callback_id: `${dto.email}|${dto.displayName}`,
-          color: '#6800ff',
-          actions: [
-            {
-              name: SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED,
-              text: '수락',
-              type: 'button',
-              style: 'primary',
-              value: `${JSON.stringify({ ...dto })}`,
-            },
-            {
-              name: SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED,
-              text: '거부',
-              style: 'danger',
-              type: 'button',
-              value: `${JSON.stringify({ email: dto.email })}`,
-            },
-          ],
-        },
-      ],
-    });
   }
 
   public handleInteractiveMessage(
