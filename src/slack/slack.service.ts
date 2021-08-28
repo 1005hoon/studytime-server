@@ -38,24 +38,18 @@ export class SlackService {
           color: '#6800ff',
           actions: [
             {
-              name: 'registration',
+              name: SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED,
               text: '수락',
               type: 'button',
               style: 'primary',
-              value: `${JSON.stringify({
-                ...dto,
-                type: SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED,
-              })}`,
+              value: `${JSON.stringify({ ...dto })}`,
             },
             {
-              name: 'registration',
+              name: SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED,
               text: '거부',
               style: 'danger',
               type: 'button',
-              value: `${JSON.stringify({
-                email: dto.email,
-                type: SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED,
-              })}`,
+              value: `${JSON.stringify({ email: dto.email })}`,
             },
           ],
         },
