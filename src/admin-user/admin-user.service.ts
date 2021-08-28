@@ -27,18 +27,23 @@ export class AdminUserService {
   }
 
   public async checkDuplicateEmail(email: string) {
-    const user = await this.findUserByEmail(email);
-    if (user) {
-      throw new BadRequestException(`${email}은 이미 사용중인 이메일 입니다`);
+    try {
+      const user = await this.findUserByEmail(email);
+      if (user) {
+        throw new BadRequestException(`${email}은 이미 사용중인 이메일 입니다`);
+      }
+    } catch (error) {
+      return;
     }
   }
+
   public async sendSlackNotificationToValidateReigstration(
     dto: CreateAdminUserDto,
   ) {
     try {
       const response =
         await this.slackService.sendSlackMessageForNewAdminRegistration(dto);
-      return response.ok;
+      return response;
     } catch (error) {
       throw new HttpException(error.message, 400);
     }

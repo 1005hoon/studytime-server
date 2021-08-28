@@ -94,29 +94,6 @@ export class SlackService {
   private async handleUserRegistrationApproved(channel, ts, userName, payload) {
     const registrationData = JSON.parse(payload);
 
-    if (
-      payload.type === SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED
-    ) {
-      const attachments = [
-        {
-          text: `${userName}님이 ${registrationData.email} 계정 생성요청을 반려했습니다`,
-          color: '#e74c3c',
-        },
-      ];
-
-      try {
-        const result = await this.webClient.chat.update({
-          channel,
-          ts,
-          attachments,
-        });
-
-        return result;
-      } catch (error) {
-        throw new HttpException(error.message, 500);
-      }
-    }
-
     try {
       await this.adminUserService.createUser(registrationData);
     } catch (error) {
