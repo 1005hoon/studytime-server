@@ -25,7 +25,7 @@ export class SlackService {
     try {
       await this.adminUserService.checkDuplicateEmail(dto.email);
     } catch (error) {
-      return this.webClient.chat.postMessage({
+      await this.webClient.chat.postMessage({
         channel: '_dev_web',
         text: '동기부여 어드민:',
         attachments: [
@@ -53,7 +53,7 @@ export class SlackService {
           },
         ],
       });
-      // throw new BadRequestException(error.message);
+      return { ok: true };
     }
   }
 
