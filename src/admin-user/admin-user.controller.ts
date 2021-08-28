@@ -11,10 +11,12 @@ export class AdminUserController {
   @Get()
   @UseGuards(FirebaseAuthGuard)
   findAll(@Query() filter: GetAdminUsersDto) {
-    return this.adminUserService.findAllAdminUsers(
-      filter.limit,
-      filter.pageToken,
-    );
+    return this.adminUserService.findAllAdminUsers({ ...filter });
+  }
+
+  @Get('/validation')
+  findByEmail(@Query('email') email: string) {
+    return this.adminUserService.findUserByEmail(email);
   }
 
   @Post('/validations')

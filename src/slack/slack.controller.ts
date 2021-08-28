@@ -9,7 +9,7 @@ export class SlackController {
     const payload = {
       ...JSON.parse(body.payload),
     };
-    const { actions, channel, user, message_ts, original_message } = payload;
+    const { actions, channel, user, message_ts } = payload;
 
     const { name: actionName, value: actionPayload } = actions[0];
     const userName = user.name;

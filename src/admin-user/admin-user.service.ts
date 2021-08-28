@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   forwardRef,
   HttpException,
   Inject,
@@ -8,6 +9,7 @@ import {
 import * as admin from 'firebase-admin';
 import { SlackService } from 'src/slack/slack.service';
 import { CreateAdminUserDto } from './dto/create-admin-user.dto';
+import { GetAdminUsersDto } from './dto/get-admin-users.dto';
 
 @Injectable()
 export class AdminUserService {
@@ -16,22 +18,20 @@ export class AdminUserService {
     private readonly slackService: SlackService,
   ) {}
 
-  public findAllAdminUsers(limit?: number, pageToken?: string) {
-    return admin.auth().listUsers(limit, pageToken);
+  public findAllAdminUsers(filter: GetAdminUsersDto) {
+    return admin.auth().listUsers(filter.limit, filter.pageToken);
   }
 
-  public async findUserByEmail(email: string) {
-    const user = await admin.auth().getUserByEmail(email);
+  public findUserByEmail(email: string) {
+    return admin.auth().getUserByEmail(email);
+  }
 
+  public async checkDuplicateEmail(email: string) {
+    const user = await this.findUserByEmail(email);
     if (user) {
-      return user;
+      throw new BadRequestException(`${email}은 이미 사용중인 이메일 입니다`);
     }
-
-    throw new NotFoundException(
-      `${email}로 등록된 어드민 유저를 조회하지 못했습니다`,
-    );
   }
-
   public async sendSlackNotificationToValidateReigstration(
     dto: CreateAdminUserDto,
   ) {

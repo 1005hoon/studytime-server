@@ -1,4 +1,10 @@
-import { forwardRef, HttpException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  forwardRef,
+  HttpException,
+  Inject,
+  Injectable,
+} from '@nestjs/common';
 import { WebClient } from '@slack/web-api';
 import { AdminUserService } from 'src/admin-user/admin-user.service';
 import { CreateAdminUserDto } from 'src/admin-user/dto/create-admin-user.dto';
@@ -16,7 +22,11 @@ export class SlackService {
     private readonly adminUserService: AdminUserService,
   ) {}
 
-  public sendSlackMessageForNewAdminRegistration(dto: CreateAdminUserDto) {
+  public async sendSlackMessageForNewAdminRegistration(
+    dto: CreateAdminUserDto,
+  ) {
+    await this.adminUserService.checkDuplicateEmail(dto.email);
+
     return this.webClient.chat.postMessage({
       channel: '개발',
       text: '동기부여 어드민:',
@@ -32,14 +42,20 @@ export class SlackService {
               text: '수락',
               type: 'button',
               style: 'primary',
-              value: `${JSON.stringify(dto)}`,
+              value: `${JSON.stringify({
+                ...dto,
+                type: SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED,
+              })}`,
             },
             {
               name: 'registration',
               text: '거부',
               style: 'danger',
               type: 'button',
-              value: '',
+              value: `${JSON.stringify({
+                email: dto.email,
+                type: SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED,
+              })}`,
             },
           ],
         },
@@ -55,8 +71,15 @@ export class SlackService {
     actionPayload,
   ) {
     switch (actionName) {
-      case SlackInteractiveMessageActionsEnum.REGISTRATION:
-        return this.handleUserRegistrationInteractiveMessage(
+      case SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED:
+        return this.handleUserRegistrationApproved(
+          channelId,
+          ts,
+          userName,
+          actionPayload,
+        );
+      case SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED:
+        return this.handleUserRegistrationDenied(
           channelId,
           ts,
           userName,
@@ -68,16 +91,12 @@ export class SlackService {
     }
   }
 
-  private async handleUserRegistrationInteractiveMessage(
-    channel,
-    ts,
-    userName,
-    payload,
-  ) {
+  private async handleUserRegistrationApproved(channel, ts, userName, payload) {
     const registrationData = JSON.parse(payload);
-    console.log('registrationData:', registrationData);
 
-    if (!payload) {
+    if (
+      payload.type === SlackInteractiveMessageActionsEnum.REGISTRATION_DENIED
+    ) {
       const attachments = [
         {
           text: `${userName}님이 ${registrationData.email} 계정 생성요청을 반려했습니다`,
@@ -91,21 +110,16 @@ export class SlackService {
           ts,
           attachments,
         });
-        console.log('슬랙 메시지 수정 완료');
+
         return result;
       } catch (error) {
-        console.log('슬랙 메시지 수정 실패');
-        console.log(error);
+        throw new HttpException(error.message, 500);
       }
     }
 
     try {
-      const result = await this.adminUserService.createUser(registrationData);
-      console.log('user created');
-      console.log(result);
+      await this.adminUserService.createUser(registrationData);
     } catch (error) {
-      console.log(error);
-
       throw new HttpException(error.message, 400);
     }
 
@@ -122,11 +136,33 @@ export class SlackService {
         ts,
         attachments,
       });
-      console.log('슬랙 메시지 수정 완료');
+
       return result;
     } catch (error) {
-      console.log('슬랙 메시지 수정 실패');
-      console.log(error);
+      throw new HttpException(error.message, 500);
+    }
+  }
+
+  private async handleUserRegistrationDenied(channel, ts, userName, payload) {
+    const registrationData = JSON.parse(payload);
+
+    const attachments = [
+      {
+        text: `${userName}님이 ${registrationData.email} 계정 생성요청을 반려했습니다`,
+        color: '#e74c3c',
+      },
+    ];
+
+    try {
+      const result = await this.webClient.chat.update({
+        channel,
+        ts,
+        attachments,
+      });
+
+      return result;
+    } catch (error) {
+      throw new HttpException(error.message, 500);
     }
   }
 }
