@@ -26,7 +26,7 @@ export class SlackService {
       await this.adminUserService.checkDuplicateEmail(dto.email);
     } catch (error) {
       await this.webClient.chat.postMessage({
-        channel: '_dev_web',
+        channel: '_admin',
         text: '동기부여 어드민:',
         attachments: [
           {
