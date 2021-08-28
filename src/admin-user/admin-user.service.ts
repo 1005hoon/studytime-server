@@ -4,7 +4,6 @@ import {
   HttpException,
   Inject,
   Injectable,
-  NotFoundException,
 } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import { SlackService } from 'src/slack/slack.service';
@@ -33,7 +32,7 @@ export class AdminUserService {
         throw new BadRequestException(`${email}은 이미 사용중인 이메일 입니다`);
       }
     } catch (error) {
-      return;
+      throw new HttpException(error.message, 500);
     }
   }
 
