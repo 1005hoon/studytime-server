@@ -64,6 +64,7 @@ export class SlackService {
     actionName,
     actionPayload,
   ) {
+    console.log(actionName);
     switch (actionName) {
       case SlackInteractiveMessageActionsEnum.REGISTRATION_APPROVED:
         return this.handleUserRegistrationApproved(
@@ -87,7 +88,7 @@ export class SlackService {
 
   private async handleUserRegistrationApproved(channel, ts, userName, payload) {
     const registrationData = JSON.parse(payload);
-
+    console.log('Registration Approved');
     try {
       await this.adminUserService.createUser(registrationData);
     } catch (error) {
@@ -108,6 +109,9 @@ export class SlackService {
         attachments,
       });
 
+      console.log('slack message update');
+      console.log(result);
+
       return result;
     } catch (error) {
       throw new HttpException(error.message, 500);
@@ -116,7 +120,7 @@ export class SlackService {
 
   private async handleUserRegistrationDenied(channel, ts, userName, payload) {
     const registrationData = JSON.parse(payload);
-
+    console.log('Registration Denied');
     const attachments = [
       {
         text: `${userName}님이 ${registrationData.email} 계정 생성요청을 반려했습니다`,
@@ -130,6 +134,8 @@ export class SlackService {
         ts,
         attachments,
       });
+      console.log('slack message update');
+      console.log(result);
 
       return result;
     } catch (error) {
