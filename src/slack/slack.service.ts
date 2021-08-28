@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   forwardRef,
   HttpException,
   Inject,
@@ -25,8 +26,12 @@ export class SlackService {
     try {
       await this.adminUserService.checkDuplicateEmail(dto.email);
     } catch (error) {
+      if (error.status === 409) {
+        throw new ConflictException(error.message);
+      }
+
       await this.webClient.chat.postMessage({
-        channel: '_admin',
+        channel: process.env.SLACK_ADMIN_CHANNEL,
         text: '동기부여 어드민:',
         attachments: [
           {

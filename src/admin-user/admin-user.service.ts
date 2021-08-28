@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   forwardRef,
   HttpException,
   Inject,
@@ -26,13 +27,9 @@ export class AdminUserService {
   }
 
   public async checkDuplicateEmail(email: string) {
-    try {
-      const user = await this.findUserByEmail(email);
-      if (user) {
-        throw new BadRequestException(`${email}은 이미 사용중인 이메일 입니다`);
-      }
-    } catch (error) {
-      throw new HttpException(error.message, 500);
+    const user = await this.findUserByEmail(email);
+    if (user) {
+      throw new ConflictException(`${email}은 이미 사용중인 이메일 입니다`);
     }
   }
 
