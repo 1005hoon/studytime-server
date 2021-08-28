@@ -13,10 +13,10 @@ export class SlackController {
 
     const { name: actionName, value: actionPayload } = actions[0];
     const userName = user.name;
-    const channelName = channel.name;
+    const channelId = channel.id;
 
     return this.slackService.handleInteractiveMessage(
-      channelName,
+      channelId,
       message_ts,
       userName,
       actionName,
