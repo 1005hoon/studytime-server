@@ -1,9 +1,6 @@
-import * as https from 'https';
 import { Inject, Injectable } from '@nestjs/common';
-import * as admin from 'firebase-admin';
-import { messaging, ServiceAccount } from 'firebase-admin';
+import { messaging } from 'firebase-admin';
 import { FcmDeviceService } from 'src/fcm-device/fcm-device.service';
-import * as FCM from 'fcm-node';
 import { UserInboxService } from 'src/user-inbox/user-inbox.service';
 import { UsersService } from 'src/users/users.service';
 
