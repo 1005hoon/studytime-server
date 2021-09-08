@@ -6,6 +6,9 @@ import { UsersModule } from './users/users.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { AdminUserModule } from './admin-user/admin-user.module';
 import { SlackModule } from './slack/slack.module';
+import { PushMessagesModule } from './push-messages/push-messages.module';
+import { FcmDeviceModule } from './fcm-device/fcm-device.module';
+import { UserInboxModule } from './user-inbox/user-inbox.module';
 
 import * as Joi from '@hapi/joi';
 
@@ -31,6 +34,9 @@ import * as Joi from '@hapi/joi';
         FIREBASE_ADMIN_TOKEN_URI: Joi.string().required(),
         FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL: Joi.string().required(),
         FIREBASE_ADMIN_CLIENT_X509_CERT_URL: Joi.string().required(),
+        PUSH_APP_PROJECT_ID: Joi.string().required(),
+        PUSH_APP_CLIENT_EMAIL: Joi.string().required(),
+        PUSH_APP_PRIVATE_KEY: Joi.string().required(),
       }),
     }),
     DatabaseModule,
@@ -39,6 +45,9 @@ import * as Joi from '@hapi/joi';
     AuthenticationModule,
     SlackModule,
     AdminUserModule,
+    PushMessagesModule,
+    FcmDeviceModule,
+    UserInboxModule,
   ],
   controllers: [],
   providers: [],

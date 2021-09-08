@@ -47,6 +47,10 @@ export class UsersService {
     return { user, articles };
   }
 
+  public async getUserByUserId(id: number) {
+    return this.usersRepository.findOne(id);
+  }
+
   public async getUsersWithPagination(
     filter: GetUsersFilterDto,
     paginationOption: PaginationOption,

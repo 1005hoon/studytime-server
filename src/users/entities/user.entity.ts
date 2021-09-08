@@ -1,4 +1,5 @@
 import { Exclude } from 'class-transformer';
+import { FcmDevice } from 'src/fcm-device/entities/fcm-device.entity';
 import {
   Column,
   Entity,
@@ -99,12 +100,6 @@ export class User {
   @Column('date', { name: 'nickname_changed_date', nullable: true })
   nicknameChangedDate: string | null;
 
-  // @OneToMany(() => GroupFeed, (groupFeed) => groupFeed.user)
-  // groupFeeds: GroupFeed[];
-
-  // @OneToMany(() => GroupMember, (groupMember) => groupMember.user)
-  // groupMembers: GroupMember[];
-
-  // @OneToMany(() => UserMission, (userMission) => userMission.user)
-  // userMissions: UserMission[];
+  @OneToMany(() => FcmDevice, (fcmDjangoFcmdevice) => fcmDjangoFcmdevice.user)
+  fcmDjangoFcmdevices: FcmDevice[];
 }
