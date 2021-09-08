@@ -3,25 +3,23 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const logger = new Logger();
-  const app = await NestFactory.create(AppModule);
-
-  const config: ConfigService = app.get(ConfigService);
-
   const firebaseAdminConfig: ServiceAccount = {
-    projectId: config.get<string>('FIREBASE_ADMIN_ID'),
-    clientEmail: config.get<string>('FIREBASE_ADMIN_CLIENT_EMAIL'),
-    privateKey: config
-      .get<string>('FIREBASE_ADMIN_PRIVATE_KEY')
-      .replace(/\\n/g, '\n'),
+    projectId: process.env.FIREBASE_ADMIN_ID,
+    clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+    privateKey: `${process.env.FIREBASE_ADMIN_PRIVATE_KEY}`.replace(
+      /\\n/g,
+      '\n',
+    ),
   };
 
   admin.initializeApp({
     credential: admin.credential.cert(firebaseAdminConfig),
   });
+
+  const app = await NestFactory.create(AppModule);
 
   app.enableCors();
 

@@ -5,6 +5,8 @@
 # env vars
 .env.*
 dgby-6d96f-firebase-adminsdk-bdbh8-44446ce96c.json
+motivation-dev-b8903-firebase-adminsdk-dfnnx-ea80140b5e.json
+motivation-stage-firebase-adminsdk-hkldp-152a877a76.json
 # Logs
 logs
 *.log
