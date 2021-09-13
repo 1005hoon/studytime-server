@@ -47,6 +47,21 @@ export class UsersService {
     return { user, articles };
   }
 
+  public searchUserWithFilter(search: string) {
+    let query = this.getBaseQuery();
+    return query
+      .where('user.nickname like :search', { search: `%${search}%` })
+      .orWhere('user.email like :search', { search: `%${search}%` })
+      .select([
+        'user.id',
+        'user.nickname',
+        'user.email',
+        'user.thumbnail',
+        'user.stId',
+      ])
+      .getMany();
+  }
+
   public async getUserByUserId(id: number) {
     return this.usersRepository.findOne(id);
   }

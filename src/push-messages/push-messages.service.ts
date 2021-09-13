@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { HttpException, Inject, Injectable } from '@nestjs/common';
 import { messaging } from 'firebase-admin';
 import { FcmDeviceService } from 'src/fcm-device/fcm-device.service';
 import { UserInboxService } from 'src/user-inbox/user-inbox.service';
@@ -18,19 +18,20 @@ export class PushMessagesService {
     return this.deviceService.getDeviceIdByUserId(userId);
   }
 
-  public async sendPushMessageToSelectedUser(
-    userId: number,
+  private async getDeviceIdByStId(stId: string) {
+    const { id } = await this.usersService.getUserByStId(stId);
+    return this.getUserDeviceIdByUserId(id);
+  }
+
+  public async sendPushMessageToStId(
+    stId: string,
     title: string,
     body: string,
   ) {
-    const { registrationId, name } = await this.getUserDeviceIdByUserId(userId);
-    const { stId } = await this.usersService.getUserByUserId(userId);
+    const { registrationId, name } = await this.getDeviceIdByStId(stId);
 
     const message = {
-      data: {
-        title,
-        body,
-      },
+      data: { title, body },
       token: registrationId,
     };
 
@@ -42,10 +43,16 @@ export class PushMessagesService {
         body,
       );
 
-      return `${name}님에게 성공적으로 푸시 메시지를 발송했습니다 :: ${title}`;
+      return `"${title}" 메시지를 ${name}님에게 발송했습니다`;
     } catch (error) {
-      console.error(error);
-      return error;
+      if (error.code === 'messaging/invalid-payload') {
+        throw new HttpException(
+          `잘못된 메시지 포맷입니다. 제목 또는 내용을 입력했는지 확인해주세요`,
+          400,
+        );
+      } else {
+        throw new HttpException(error.message, 400);
+      }
     }
   }
 }

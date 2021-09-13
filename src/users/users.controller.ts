@@ -33,6 +33,11 @@ export class UsersController {
     });
   }
 
+  @Get('search')
+  searchUsers(@Query('search') search: string) {
+    return this.usersService.searchUserWithFilter(search);
+  }
+
   @Get(':stId')
   findById(@Param('stId') stId: string) {
     return this.usersService.getUserByIdWithArticles(stId);
