@@ -6,13 +6,13 @@ import { PushMessagesService } from './push-messages.service';
 export class PushMessagesController {
   constructor(private readonly pushMessagesService: PushMessagesService) {}
 
-  @Post('users/:userId')
-  test(
-    @Param('userId', ParseIntPipe) userId: number,
-    @Body() message: SendPushMessageToSelectedUserDto,
+  @Post(':stId')
+  sendPushMessage(
+    @Param('stId') stId: string,
+    @Body('message') message: SendPushMessageToSelectedUserDto,
   ) {
-    return this.pushMessagesService.sendPushMessageToSelectedUser(
-      userId,
+    return this.pushMessagesService.sendPushMessageToStId(
+      stId,
       message.title,
       message.body,
     );
