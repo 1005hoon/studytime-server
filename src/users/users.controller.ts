@@ -35,7 +35,11 @@ export class UsersController {
 
   @Get('search')
   searchUsers(@Query('q') q: string) {
-    return this.usersService.searchUserWithFilter(q);
+    return this.usersService.searchUsersWithPagination(q, {
+      count: true,
+      currentPage: 1,
+      limit: 10,
+    });
   }
 
   @Get(':stId')

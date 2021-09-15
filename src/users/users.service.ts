@@ -47,19 +47,11 @@ export class UsersService {
     return { user, articles };
   }
 
-  public searchUserWithFilter(search: string) {
+  private searchUserWithFilter(search: string) {
     let query = this.getBaseQuery();
     return query
       .where('user.nickname like :search', { search: `%${search}%` })
-      .orWhere('user.email like :search', { search: `%${search}%` })
-      .select([
-        'user.id',
-        'user.nickname',
-        'user.email',
-        'user.thumbnail',
-        'user.stId',
-      ])
-      .getMany();
+      .orWhere('user.email like :search', { search: `%${search}%` });
   }
 
   public async getUserByUserId(id: number) {
@@ -73,6 +65,12 @@ export class UsersService {
     return await paginate(this.getUsersWithFilter(filter), paginationOption);
   }
 
+  public async searchUsersWithPagination(
+    search: string,
+    paginationOption: PaginationOption,
+  ) {
+    return await paginate(this.searchUserWithFilter(search), paginationOption);
+  }
   public async getUserByEmail(email: string) {
     const user = await this.usersRepository.findOne({ email });
     if (user) {
