@@ -34,8 +34,8 @@ export class UsersController {
   }
 
   @Get('search')
-  searchUsers(@Query('search') search: string) {
-    return this.usersService.searchUserWithFilter(search);
+  searchUsers(@Query('q') q: string) {
+    return this.usersService.searchUserWithFilter(q);
   }
 
   @Get(':stId')
