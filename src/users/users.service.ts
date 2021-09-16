@@ -50,8 +50,9 @@ export class UsersService {
   private searchUserWithFilter(search: string) {
     let query = this.getBaseQuery();
     return query
-      .where('user.nickname like :search', { search: `%${search}%` })
-      .orWhere('user.email like :search', { search: `%${search}%` });
+      .orWhere('user.nickname like :search', { search: `%${search}%` })
+      .orWhere('user.email like :search', { search: `%${search}%` })
+      .orWhere('user.stId like :search', { search: `%${search}%` });
   }
 
   public async getUserByUserId(id: number) {
