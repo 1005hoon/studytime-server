@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginationOption } from 'src/utils/pagination/paginator';
-import { Repository, SelectQueryBuilder } from 'typeorm';
+import { SelectQueryBuilder } from 'typeorm';
 import { GetEventsFilterDto } from './dto/get-events.filter.dto';
-import EventDetail from './entities/event-details.entity';
 import Event from './entities/events.entity';
 import { EventDetailsRepository } from './event-details.repository';
 import { EventsRepository } from './events.repository';
