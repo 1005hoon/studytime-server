@@ -5,14 +5,16 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { GetEventsFilterDto } from './dto/get-events.filter.dto';
 import EventDetail from './entities/event-details.entity';
 import Event from './entities/events.entity';
+import { EventDetailsRepository } from './event-details.repository';
+import { EventsRepository } from './events.repository';
 
 @Injectable()
 export class EventsService {
   constructor(
-    @InjectRepository(Event)
-    private readonly eventsRepository: Repository<Event>,
-    @InjectRepository(EventDetail)
-    private readonly eventDetailsRepository: Repository<EventDetail>,
+    @InjectRepository(EventsRepository)
+    private readonly eventsRepository: EventsRepository,
+    @InjectRepository(EventDetailsRepository)
+    private readonly eventDetailsRepository: EventDetailsRepository,
   ) {}
 
   private getEventsQuery(): SelectQueryBuilder<Event> {
@@ -46,5 +48,9 @@ export class EventsService {
     paginationOption: PaginationOption,
   ) {
     return await paginate(this.getEventsWithFilter(filter), paginationOption);
+  }
+
+  public async getEventWithDetails(id: number) {
+    return this.eventDetailsRepository.findOne();
   }
 }
