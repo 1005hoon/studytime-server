@@ -35,6 +35,7 @@ export class CafeArticlesController {
       limit: filter.limit,
     });
   }
+
   @Get(':id')
   async findById(@Param('id', ParseIntPipe) id: number): Promise<CafeArticle> {
     const article = await this.articlesService.getArticleByIdWithReplies(id);
