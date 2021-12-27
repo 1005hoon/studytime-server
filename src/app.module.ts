@@ -9,6 +9,7 @@ import { CafeArticlesModule } from './cafe-articles/cafe-articles.module';
 // import { PushMessagesModule } from './push-messages/push-messages.module';
 // import { FcmDeviceModule } from './fcm-device/fcm-device.module';
 // import { UserInboxModule } from './user-inbox/user-inbox.module';
+import { EventsModule } from './events/events.module';
 
 import * as Joi from '@hapi/joi';
 
@@ -41,6 +42,7 @@ import * as Joi from '@hapi/joi';
     }),
     DatabaseModule,
     CafeArticlesModule,
+    EventsModule,
     // UsersModule,
     // AuthenticationModule,
     // SlackModule,
