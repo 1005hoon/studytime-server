@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Res } from '@nestjs/common';
+import { Controller, Get, Param, Query, Res } from '@nestjs/common';
 import { Response } from 'express';
 import { AuthenticationService } from './authentication.service';
 
@@ -6,12 +6,13 @@ import { AuthenticationService } from './authentication.service';
 export class AuthenticationController {
   constructor(private readonly authService: AuthenticationService) {}
 
-  @Get('/auth/:provider')
+  @Get('/:provider')
   async authWithProvider(
+    //   @Param('provider') provider: string
     @Param('provider') provider: string,
-    @Res() res: Response,
+    @Query('code') code: string,
   ) {
-    const authUrl = this.authService.getAuthUrl(provider);
-    return authUrl;
+    const token = await this.authService.createTokenForUser(provider, code);
+    console.log(token);
   }
 }

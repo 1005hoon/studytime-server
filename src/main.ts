@@ -1,8 +1,12 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as morgan from 'morgan';
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin';
+import { __PROD__ } from './utils/constants';
+
+const allowedOrigins = ['http://localhost:3000'];
 
 async function bootstrap() {
   const logger = new Logger();
@@ -19,9 +23,16 @@ async function bootstrap() {
   //   credential: admin.credential.cert(firebaseAdminConfig),
   // });
 
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { bodyParser: true });
 
-  app.enableCors();
+  app.enableCors({
+    origin: allowedOrigins,
+    credentials: true,
+  });
+
+  if (!__PROD__) {
+    app.use(morgan('dev'));
+  }
 
   app.useGlobalPipes(new ValidationPipe());
 

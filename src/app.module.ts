@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { CafeArticlesModule } from './cafe-articles/cafe-articles.module';
 // import { UsersModule } from './users/users.module';
-// import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 // import { AdminUserModule } from './admin-user/admin-user.module';
 // import { SlackModule } from './slack/slack.module';
 // import { PushMessagesModule } from './push-messages/push-messages.module';
@@ -25,6 +25,10 @@ import * as Joi from '@hapi/joi';
         DB_USER: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        OAUTH_KAKAO_BASE_HOST: Joi.string().required(),
+        OAUTH_KAKAO_CLIENT_ID: Joi.string().required(),
+        OAUTH_KAKAO_CLIENT_SECRET: Joi.string().required(),
+        OAUTH_KAKAO_REDIRECT_URI: Joi.string().required(),
         // FIREBASE_ADMIN_TYPE: Joi.string().required(),
         // FIREBASE_ADMIN_ID: Joi.string().required(),
         // FIREBASE_ADMIN_PRIVATE_KEY_ID: Joi.string().required(),
@@ -43,8 +47,8 @@ import * as Joi from '@hapi/joi';
     DatabaseModule,
     CafeArticlesModule,
     EventsModule,
+    AuthenticationModule,
     // UsersModule,
-    // AuthenticationModule,
     // SlackModule,
     // AdminUserModule,
     // PushMessagesModule,

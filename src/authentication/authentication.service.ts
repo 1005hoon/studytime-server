@@ -1,6 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable } from '@nestjs/common';
+import { stringify } from 'qs';
 import { AdminUserService } from 'src/admin-user/admin-user.service';
 import { RegisterDto } from './dto/register.dto';
+
+import axios from 'axios';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -37,7 +40,27 @@ export class AuthenticationService {
     }
   }
 
-  public getAuthUrl(provider) {
-    const uri = `${process.env.OAUTH_KAKAO_BASE_HOST}/oauth/authorize?client_id=${process.env.OAUTH_KAKAO_CLIENT_ID}&redirect_uri=${process.env.OAUTH_KAKAO_REDIRECT_URI}&response_type=code`;
+  public async createTokenForUser(provider: string, code: string) {
+    try {
+      const { data } = await axios.post(
+        `${process.env.OAUTH_KAKAO_BASE_HOST}/oauth/token`,
+        stringify({
+          code,
+          grant_type: 'authorization_code',
+          client_id: process.env.OAUTH_KAKAO_CLIENT_ID,
+          client_secret: process.env.OAUTH_KAKAO_CLIENT_SECRET,
+          redirect_uri: process.env.OAUTH_KAKAO_REDIRECT_URI,
+        }),
+        {
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded',
+          },
+        },
+      );
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error, 500);
+    }
   }
 }
