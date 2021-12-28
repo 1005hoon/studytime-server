@@ -7,7 +7,10 @@ import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin';
 import { __PROD__ } from './utils/constants';
 
-const allowedOrigins = ['http://localhost:3000'];
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://dgby-admin-client-stage.herokuapp.com/',
+];
 
 async function bootstrap() {
   const logger = new Logger();
