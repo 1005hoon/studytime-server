@@ -74,9 +74,11 @@ export class UsersService {
   }
   public async getUserByEmail(email: string) {
     const user = await this.usersRepository.findOne({ email });
+
     if (user) {
       return user;
     }
+
     throw new NotFoundException(
       `"email: ${email}" 을 사용하는 계정을 찾지 못했습니다. `,
     );

@@ -1,5 +1,11 @@
 import axios from 'axios';
-import { HttpException, Injectable, Logger } from '@nestjs/common';
+import {
+  ForbiddenException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
 import { stringify } from 'qs';
 import { KakaoToken } from './interfaces/kakao-token.interface';
 import { UsersService } from 'src/users/users.service';
@@ -10,48 +16,17 @@ export class AuthenticationService {
   private logger = new Logger(AuthenticationService.name);
   constructor(private readonly userService: UsersService) {}
 
-  public async createTokenForUser(provider: string, code: string) {
-    const queryString = stringify({
-      code,
-      grant_type: 'authorization_code',
-      client_id: process.env.OAUTH_KAKAO_CLIENT_ID,
-      client_secret: process.env.OAUTH_KAKAO_CLIENT_SECRET,
-      redirect_uri: process.env.OAUTH_KAKAO_REDIRECT_URI,
-    });
-
-    try {
-      const { data } = await axios.post<KakaoToken>(
-        `${process.env.OAUTH_KAKAO_BASE_HOST}/oauth/token`,
-        queryString,
-        {
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded',
-          },
-        },
+  public async validateUser(email: string) {
+    if (!email) {
+      throw new HttpException(
+        '이메일을 조회할 수 없습니다. 로그인 시 이메일 정보 제공 약관을 선택해주세요.',
+        HttpStatus.BAD_REQUEST,
       );
-      return data.access_token;
-    } catch (error) {
-      this.logger.error(error);
-      throw new HttpException(error, 500);
     }
+
+    const user = await this.userService.getUserByEmail(email);
+    return user;
   }
 
-  async authenticate(token: string) {
-    try {
-      const { data } = await axios.get<KakaoUser>(
-        'https://kapi.kakao.com/v2/user/me',
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      return data;
-    } catch (error) {
-      this.logger.error(error);
-      throw new HttpException(error, 500);
-    }
-  }
-
-  private validateAdmin() {}
+  public async;
 }
