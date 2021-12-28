@@ -27,12 +27,14 @@ async function bootstrap() {
   //   credential: admin.credential.cert(firebaseAdminConfig),
   // });
 
-  const app = await NestFactory.create(AppModule, { bodyParser: true });
-  app.use(cookieParser());
-  app.enableCors({
-    origin: allowedOrigins,
-    credentials: true,
+  const app = await NestFactory.create(AppModule, {
+    bodyParser: true,
+    cors: {
+      origin: allowedOrigins,
+      credentials: true,
+    },
   });
+  app.use(cookieParser());
 
   if (!__PROD__) {
     app.use(morgan('dev'));
