@@ -6,6 +6,7 @@ import { KakaoStrategy } from './strategies/kakao-auth.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -16,14 +17,14 @@ import { JwtModule } from '@nestjs/jwt';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
-        secret: config.get('JWT_SECRET'),
+        secret: config.get('JWT_ACCESS_TOKEN_SECRET'),
         signOptions: {
-          expiresIn: `${config.get('JWT_EXPIRATION_TIME')}d`,
+          expiresIn: `${config.get('JWT_ACCESS_TOKEN_EXPIRATION_TIME')}d`,
         },
       }),
     }),
   ],
-  providers: [AuthenticationService, KakaoStrategy],
+  providers: [AuthenticationService, KakaoStrategy, JwtStrategy],
   controllers: [AuthenticationController],
 })
 export class AuthenticationModule {}

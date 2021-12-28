@@ -7,7 +7,7 @@ import { UsersService } from 'src/users/users.service';
 import TokenPayload from '../interfaces/token-payload.interface';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     private readonly config: ConfigService,
     private readonly usersService: UsersService,
