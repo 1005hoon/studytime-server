@@ -11,6 +11,9 @@ export class AuthenticationController {
     @Query('code') code: string,
   ) {
     const token = await this.authService.createTokenForUser(provider, code);
-    return token.access_token;
+    const user = await this.authService.authenticate(token);
+    console.log(user);
+
+    return token;
   }
 }
