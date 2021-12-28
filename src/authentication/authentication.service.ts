@@ -3,6 +3,7 @@ import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import TokenPayload from './interfaces/token-payload.interface';
+import { __PROD__ } from 'src/utils/constants';
 
 @Injectable()
 export class AuthenticationService {
@@ -42,7 +43,9 @@ export class AuthenticationService {
       )}`,
     });
 
-    return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
+    return `Authentication=${token}; HttpOnly; SameSite=${
+      __PROD__ ? 'None' : 'Secure'
+    }; Path=/; Max-Age=${this.configService.get(
       'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
     )}`;
   }
