@@ -36,10 +36,10 @@ export class FcmDevice {
   @Column('int', { name: 'user_id', nullable: true })
   userId: number | null;
 
-  @ManyToOne(() => User, (users) => users.fcmDjangoFcmdevices, {
-    onDelete: 'RESTRICT',
-    onUpdate: 'RESTRICT',
-  })
-  @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
-  user: User;
+  // @ManyToOne(() => User, (users) => users.fcmDjangoFcmdevices, {
+  //   onDelete: 'RESTRICT',
+  //   onUpdate: 'RESTRICT',
+  // })
+  // @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
+  // user: User;
 }
