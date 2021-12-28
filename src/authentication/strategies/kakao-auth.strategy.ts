@@ -1,7 +1,8 @@
-import { HttpCode, HttpException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-kakao';
 import { AuthenticationService } from '../authentication.service';
+
 @Injectable()
 export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
   constructor(private readonly authService: AuthenticationService) {
@@ -12,13 +13,14 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     });
   }
 
-  async validate(
-    accessToken: string,
-    refreshToken: string,
-    profile: any,
-    done: any,
-  ) {
-    console.log(profile);
-    throw new HttpException('우선 에러', 500);
+  async validate(profile: any) {
+    const email = profile._json.kakao_account.email;
+    const user = await this.authService.validateUser(email);
+
+    if (!user) {
+      return null;
+    }
+
+    return user;
   }
 }

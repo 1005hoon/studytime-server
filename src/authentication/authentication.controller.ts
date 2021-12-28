@@ -10,7 +10,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
+import { User } from 'src/users/entities/user.entity';
 import { AuthenticationService } from './authentication.service';
+import { CurrentUser } from './decorators/current-user.decorator';
 import { KakaoAuthGuard } from './guards/kakao-auth.guard';
 
 @Controller('auth')
@@ -19,8 +21,7 @@ export class AuthenticationController {
 
   @UseGuards(KakaoAuthGuard)
   @Get('/kakao')
-  async oAuthCallback(@Req() req: Request) {
-    console.log(req.user);
-    return req.user;
+  async oAuthCallback(@CurrentUser() user: User) {
+    return user;
   }
 }
