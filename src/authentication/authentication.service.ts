@@ -36,4 +36,8 @@ export class AuthenticationService {
       throw new BadRequestException(error.message);
     }
   }
+
+  public getAuthUrl(provider) {
+    const uri = `${process.env.OAUTH_KAKAO_BASE_HOST}/oauth/authorize?client_id=${process.env.OAUTH_KAKAO_CLIENT_ID}&redirect_uri=${process.env.OAUTH_KAKAO_REDIRECT_URI}&response_type=code`;
+  }
 }
