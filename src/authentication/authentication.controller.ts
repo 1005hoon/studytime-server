@@ -20,8 +20,7 @@ export class AuthenticationController {
   @Get('/kakao')
   async kakaoAuthCallback(@Req() req: Request, @CurrentUser() user: User) {
     const accessCookie = this.authService.getCookieWithJwtAccessToken(user.id);
-    req.res.setHeader('Set-Cookie', accessCookie);
-
+    req.res.setHeader('Set-Cookie', [accessCookie]);
     return user;
   }
 }

@@ -12,6 +12,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { EventsModule } from './events/events.module';
 
 import * as Joi from '@hapi/joi';
+import { APP_FILTER } from '@nestjs/core';
 
 @Module({
   imports: [

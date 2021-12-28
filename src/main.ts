@@ -1,6 +1,7 @@
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import * as admin from 'firebase-admin';
 import { ServiceAccount } from 'firebase-admin';
@@ -24,7 +25,7 @@ async function bootstrap() {
   // });
 
   const app = await NestFactory.create(AppModule, { bodyParser: true });
-
+  app.use(cookieParser());
   app.enableCors({
     origin: allowedOrigins,
     credentials: true,

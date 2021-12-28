@@ -22,6 +22,14 @@ export class AuthenticationService {
     }
 
     const user = await this.userService.getUserByEmail(email);
+
+    if (!user.isAdmin) {
+      throw new HttpException(
+        '관리자 권한이 없습니다. 담당자에게 문의하세요',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
     return user;
   }
 
@@ -31,7 +39,7 @@ export class AuthenticationService {
       secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
       expiresIn: `${this.configService.get(
         'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
-      )}d`,
+      )}`,
     });
 
     return `Authentication=${token}; HttpOnly; Path=/; Max-Age=${this.configService.get(
