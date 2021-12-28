@@ -43,9 +43,9 @@ export class AuthenticationService {
       )}`,
     });
 
-    return `Authentication=${token}; HttpOnly; SameSite=${
-      __PROD__ ? 'None' : 'Secure'
-    }; Path=/; Max-Age=${this.configService.get(
+    return `Authentication=${token}; HttpOnly; ${
+      __PROD__ && 'SameSite=None; Secure=True'
+    };  Path=/; Max-Age=${this.configService.get(
       'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
     )}`;
   }
