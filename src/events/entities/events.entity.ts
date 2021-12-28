@@ -12,7 +12,7 @@ class Event {
   createdAt: Date;
 
   @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: boolean;
+  isDeleted: number;
 }
 
 export default Event;

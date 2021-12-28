@@ -1,4 +1,5 @@
-import { Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsFilterDto } from './dto/get-events.filter.dto';
 import { EventsService } from './events.service';
 
@@ -18,5 +19,20 @@ export class EventsController {
   @Get('/:id')
   getOne(@Param('id') id: string) {
     return this.eventsService.getEventWithDetails(+id);
+  }
+
+  @Post('/')
+  createEvent(
+    @Body('event') event: string,
+    @Body('popup') popupDto: CreateEventDto,
+    @Body('banner') bannerDto: CreateEventDto,
+    @Body('detail') detailDto: CreateEventDto,
+  ) {
+    return this.eventsService.createEventAndDetails(
+      event,
+      popupDto,
+      bannerDto,
+      detailDto,
+    );
   }
 }

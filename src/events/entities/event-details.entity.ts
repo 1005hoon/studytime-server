@@ -12,7 +12,7 @@ class EventDetail {
   type: string | null;
 
   @Column('varchar', { name: 'img_url', length: 256 })
-  imgUrl: string;
+  img_url: string;
 
   @Column('varchar', { name: 'url', nullable: true, length: 256 })
   url: string | null;
@@ -24,7 +24,7 @@ class EventDetail {
   createdAt: Date;
 
   @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: boolean;
+  isDeleted: number;
 }
 
 export default EventDetail;

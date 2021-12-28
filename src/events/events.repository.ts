@@ -1,4 +1,9 @@
-import { EntityRepository, Repository } from 'typeorm';
+import {
+  EntityManager,
+  EntityRepository,
+  Repository,
+  TransactionManager,
+} from 'typeorm';
 import { GetEventsFilterDto } from './dto/get-events.filter.dto';
 import Event from './entities/events.entity';
 
@@ -26,5 +31,18 @@ export class EventsRepository extends Repository<Event> {
     }
 
     return query;
+  }
+
+  public async createEvent(
+    @TransactionManager() em: EntityManager,
+    name: string,
+  ) {
+    const event = em.create(Event, {
+      name,
+      createdAt: new Date(),
+      isDeleted: 0,
+    });
+    await em.save(event);
+    return event;
   }
 }
