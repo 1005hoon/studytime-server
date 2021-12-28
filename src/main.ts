@@ -9,7 +9,7 @@ import { __PROD__ } from './utils/constants';
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'https://dgby-admin-client-stage.herokuapp.com/',
+  'https://dgby-admin-client-stage.herokuapp.com',
 ];
 
 async function bootstrap() {
