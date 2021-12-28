@@ -26,8 +26,8 @@ import * as Joi from '@hapi/joi';
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
 
-        JWT_SECRET: Joi.string().required(),
-        JWT_EXPIRATION_TIME: Joi.number().required(),
+        JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
+        JWT_ACCESS_TOKEN_EXPIRATION_TIME: Joi.number().required(),
         OAUTH_KAKAO_BASE_HOST: Joi.string().required(),
         OAUTH_KAKAO_CLIENT_ID: Joi.string().required(),
         OAUTH_KAKAO_CLIENT_SECRET: Joi.string().required(),

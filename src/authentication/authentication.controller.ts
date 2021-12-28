@@ -1,4 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { User } from 'src/users/entities/user.entity';
 import { AuthenticationService } from './authentication.service';
 import { CurrentUser } from './decorators/current-user.decorator';
@@ -10,7 +11,10 @@ export class AuthenticationController {
 
   @UseGuards(KakaoAuthGuard)
   @Get('/kakao')
-  async kakaoAuthCallback(@CurrentUser() user: User) {
+  async kakaoAuthCallback(@Req() req: Request, @CurrentUser() user: User) {
+    const accessCookie = this.authService.getCookieWithJwtAccessToken(user.id);
+    req.res.setHeader('Set-Cookie', accessCookie);
+
     return user;
   }
 }
