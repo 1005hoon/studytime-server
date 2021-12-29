@@ -1,4 +1,4 @@
-import { User } from 'src/users/entities/user.entity';
+import { Users } from 'src/users/entities/Users';
 import {
   Column,
   Entity,
@@ -36,10 +36,10 @@ export class FcmDevice {
   @Column('int', { name: 'user_id', nullable: true })
   userId: number | null;
 
-  // @ManyToOne(() => User, (users) => users.fcmDjangoFcmdevices, {
+  // @ManyToOne(() => Users, (users) => users.fcmDjangoFcmdevices, {
   //   onDelete: 'RESTRICT',
   //   onUpdate: 'RESTRICT',
   // })
   // @JoinColumn([{ name: 'user_id', referencedColumnName: 'id' }])
-  // user: User;
+  // user: Users;
 }

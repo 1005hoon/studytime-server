@@ -25,7 +25,11 @@ export class UsersController {
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
   findAll() {
-    return this.usersService.getAllUsers();
+    return this.usersService.getUsersWithPagination({
+      count: true,
+      currentPage: 1,
+      limit: 10,
+    });
   }
 
   // @Get()

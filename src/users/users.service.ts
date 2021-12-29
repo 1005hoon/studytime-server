@@ -6,17 +6,20 @@ import { Repository, SelectQueryBuilder } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { GetUsersFilterDto } from './dto/get-users-filter.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
+import { Users } from './entities/Users';
+import { UserRepository } from './users.repository';
 
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    @InjectRepository(UserRepository)
+    private readonly usersRepository: UserRepository,
+    // @InjectRepository(Users)
+    // private readonly usersRepository: Repository<Users>,
     private readonly articlesService: CafeArticlesService,
   ) {}
 
-  private getBaseQuery(): SelectQueryBuilder<User> {
+  private getBaseQuery(): SelectQueryBuilder<Users> {
     return this.usersRepository
       .createQueryBuilder('user')
       .orderBy('user.id', 'DESC');
@@ -63,11 +66,11 @@ export class UsersService {
     return this.usersRepository.findOne(id);
   }
 
-  public async getUsersWithPagination(
-    filter: GetUsersFilterDto,
-    paginationOption: PaginationOption,
-  ) {
-    return await paginate(this.getUsersWithFilter(filter), paginationOption);
+  public async getUsersWithPagination(paginationOption: PaginationOption) {
+    return await paginate(
+      this.usersRepository.getUsersWithFilter(),
+      paginationOption,
+    );
   }
 
   public async searchUsersWithPagination(
@@ -104,7 +107,7 @@ export class UsersService {
     return user;
   }
 
-  public async updateUser(user: User, updateUserDto: UpdateUserDto) {
+  public async updateUser(user: Users, updateUserDto: UpdateUserDto) {
     Object.assign(user, updateUserDto);
     return this.usersRepository.save(user);
   }

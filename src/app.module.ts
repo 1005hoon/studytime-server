@@ -13,6 +13,7 @@ import { EventsModule } from './events/events.module';
 
 import * as Joi from '@hapi/joi';
 import { APP_FILTER } from '@nestjs/core';
+import { GroupsModule } from './groups/groups.module';
 
 @Module({
   imports: [
@@ -52,6 +53,7 @@ import { APP_FILTER } from '@nestjs/core';
     CafeArticlesModule,
     EventsModule,
     AuthenticationModule,
+    GroupsModule,
     // UsersModule,
     // SlackModule,
     // AdminUserModule,
