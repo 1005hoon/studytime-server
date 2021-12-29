@@ -24,14 +24,19 @@ export class UsersController {
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  @UsePipes(new ValidationPipe({ transform: true }))
-  findAll(@Query() filter: GetUsersFilterDto) {
-    return this.usersService.getUsersWithPagination(filter, {
-      count: true,
-      currentPage: filter.page,
-      limit: filter.limit,
-    });
+  findAll() {
+    return this.usersService.getAllUsers();
   }
+
+  // @Get()
+  // @UsePipes(new ValidationPipe({ transform: true }))
+  // findAll(@Query() filter: GetUsersFilterDto) {
+  //   return this.usersService.getUsersWithPagination(filter, {
+  //     count: true,
+  //     currentPage: filter.page,
+  //     limit: filter.limit,
+  //   });
+  // }
 
   @Get('search')
   searchUsers(@Query('q') q: string) {

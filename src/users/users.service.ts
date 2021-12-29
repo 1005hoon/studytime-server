@@ -38,6 +38,10 @@ export class UsersService {
     return query;
   }
 
+  public async getAllUsers() {
+    return this.usersRepository.find();
+  }
+
   public async getUserByIdWithArticles(stId: string) {
     const user = await this.usersRepository.findOne({ stId });
     const articles = await this.articlesService.getLastFiveArticlesByUserStId(
