@@ -1,4 +1,5 @@
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
+import { GetUsersDto } from './dto/get-users.dto';
 import { Users } from './entities/Users';
 
 @EntityRepository(Users)
@@ -7,8 +8,15 @@ export class UserRepository extends Repository<Users> {
     return this.createQueryBuilder('user').orderBy('user.id', 'DESC');
   }
 
-  public getUsersWithFilter() {
+  public getUsersWithFilter(filter: GetUsersDto) {
     let query = this.getBaseQuery();
+
+    if (filter.search) {
+      query
+        .orWhere('user.nickname like :search', { search: `%${filter.search}%` })
+        .orWhere('user.email like :search', { search: `%${filter.search}%` })
+        .orWhere('user.stId like :search', { search: `%${filter.search}%` });
+    }
 
     return query;
   }
