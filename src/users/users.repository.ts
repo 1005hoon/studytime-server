@@ -10,8 +10,6 @@ export class UserRepository extends Repository<Users> {
   public getUsersWithFilter() {
     let query = this.getBaseQuery();
 
-    query.leftJoin('user.group_id', 'group');
-
     return query;
   }
 }

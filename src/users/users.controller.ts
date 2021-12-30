@@ -24,12 +24,8 @@ export class UsersController {
 
   @Get()
   @UseInterceptors(ClassSerializerInterceptor)
-  findAll() {
-    return this.usersService.getUsersWithPagination({
-      count: true,
-      currentPage: 1,
-      limit: 10,
-    });
+  findAll(@Query() userFilterDto: GetUsersFilterDto) {
+    return this.usersService.getUsersWithPagination(userFilterDto);
   }
 
   // @Get()
@@ -42,34 +38,34 @@ export class UsersController {
   //   });
   // }
 
-  @Get('search')
-  searchUsers(@Query('q') q: string) {
-    return this.usersService.searchUsersWithPagination(q, {
-      count: true,
-      currentPage: 1,
-      limit: 10,
-    });
-  }
+  // @Get('search')
+  // searchUsers(@Query('q') q: string) {
+  //   return this.usersService.searchUsersWithPagination(q, {
+  //     count: true,
+  //     currentPage: 1,
+  //     limit: 10,
+  //   });
+  // }
 
-  @Get(':stId')
-  findById(@Param('stId') stId: string) {
-    return this.usersService.getUserByIdWithArticles(stId);
-  }
+  // @Get(':stId')
+  // findById(@Param('stId') stId: string) {
+  //   return this.usersService.getUserByIdWithArticles(stId);
+  // }
 
-  @Patch(':stId')
-  @UseGuards(FirebaseAuthGuard)
-  async update(
-    @Param('stId') stId: string,
-    @Body() updateUserDto: UpdateUserDto,
-  ) {
-    const user = await this.usersService.getUserByStId(stId);
+  // @Patch(':stId')
+  // @UseGuards(FirebaseAuthGuard)
+  // async update(
+  //   @Param('stId') stId: string,
+  //   @Body() updateUserDto: UpdateUserDto,
+  // ) {
+  //   const user = await this.usersService.getUserByStId(stId);
 
-    if (!user) {
-      throw new NotFoundException(
-        `"stId: ${stId}"를 사용하는 계정을 찾지 못했습니다`,
-      );
-    }
+  //   if (!user) {
+  //     throw new NotFoundException(
+  //       `"stId: ${stId}"를 사용하는 계정을 찾지 못했습니다`,
+  //     );
+  //   }
 
-    return this.usersService.updateUser(user, updateUserDto);
-  }
+  //   return this.usersService.updateUser(user, updateUserDto);
+  // }
 }

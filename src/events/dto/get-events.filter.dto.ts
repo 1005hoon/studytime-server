@@ -2,7 +2,7 @@ export class GetEventsFilterDto {
   name?: string;
   createdAt?: Date;
   isDeleted?: boolean;
-  currentPage: number;
+  page: number;
   limit: number;
   count?: boolean;
 }

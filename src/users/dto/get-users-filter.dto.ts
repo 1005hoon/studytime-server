@@ -1,5 +1,5 @@
 export class GetUsersFilterDto {
-  limit = 15;
+  count = true;
+  limit = 10;
   page = 1;
-  isActive = 1;
 }

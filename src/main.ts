@@ -40,7 +40,7 @@ async function bootstrap() {
     app.use(morgan('dev'));
   }
 
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   await app.listen(process.env.PORT || 8000, () => {
     logger.log(

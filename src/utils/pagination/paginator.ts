@@ -3,7 +3,7 @@ import { SelectQueryBuilder } from 'typeorm';
 
 export interface PaginationOption {
   limit?: number;
-  currentPage: number;
+  page: number;
   count?: boolean;
 }
 
@@ -32,7 +32,8 @@ export async function paginate<T>(
   queryBuilder: SelectQueryBuilder<T>,
   options: PaginationOption,
 ) {
-  const offset = (options.currentPage - 1) * options.limit;
+  const offset = (options.page - 1) * options.limit;
+  console.log(options);
 
   const data = await queryBuilder.limit(options.limit).offset(offset).getMany();
 

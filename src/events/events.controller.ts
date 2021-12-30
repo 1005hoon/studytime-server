@@ -11,7 +11,7 @@ export class EventsController {
   getAll(@Query() filter: GetEventsFilterDto) {
     return this.eventsService.getEventsWithPagination(filter, {
       count: true,
-      currentPage: filter.currentPage || 1,
+      page: filter.page || 1,
       limit: filter.limit || 10,
     });
   }

@@ -32,11 +32,11 @@ export class UsersService {
       return query;
     }
 
-    if (filter.isActive) {
-      query.andWhere('user.isActive = :isActive', {
-        isActive: filter.isActive,
-      });
-    }
+    // if (filter.isActive) {
+    //   query.andWhere('user.isActive = :isActive', {
+    //     isActive: filter.isActive,
+    //   });
+    // }
 
     return query;
   }

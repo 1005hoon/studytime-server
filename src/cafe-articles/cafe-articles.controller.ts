@@ -31,7 +31,7 @@ export class CafeArticlesController {
   ): Promise<PaginationResult<CafeArticle>> {
     return this.articlesService.getArticlesWithPagination(filter, {
       count: true,
-      currentPage: filter.page,
+      page: filter.page,
       limit: filter.limit,
     });
   }
