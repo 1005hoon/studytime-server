@@ -32,4 +32,9 @@ export class UsersController {
       return error.message;
     }
   }
+
+  @Patch(':stId')
+  async update(@Param('stId') stId: string, @Body() updateUserDto: any) {
+    return this.usersService.updateUser(stId, updateUserDto);
+  }
 }

@@ -1,3 +1,4 @@
+import { HttpException, NotFoundException } from '@nestjs/common';
 import { EntityRepository, Repository, SelectQueryBuilder } from 'typeorm';
 import { GetUsersDto } from './dto/get-users.dto';
 import { Users } from './entities/Users';
@@ -22,5 +23,21 @@ export class UserRepository extends Repository<Users> {
     }
 
     return query;
+  }
+
+  public async updateUserByStId(stId: string, updateUserDto: any) {
+    const user = await this.getUserByStId(stId);
+    if (!user) {
+      throw new NotFoundException(
+        `${stId}에 해당하는 사용자가 존재하지 않습니다`,
+      );
+    }
+    Object.assign(user, updateUserDto);
+
+    try {
+      return this.save(user);
+    } catch (error) {
+      throw new HttpException(error, 500);
+    }
   }
 }

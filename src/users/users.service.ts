@@ -27,6 +27,10 @@ export class UsersService {
     });
   }
 
+  public async updateUser(stId: string, updateUserDto: UpdateUserDto) {
+    return this.usersRepository.updateUserByStId(stId, updateUserDto);
+  }
+
   public async getAllUsers() {
     return this.usersRepository.find();
   }
@@ -72,8 +76,8 @@ export class UsersService {
     return user;
   }
 
-  public async updateUser(user: Users, updateUserDto: UpdateUserDto) {
-    Object.assign(user, updateUserDto);
-    return this.usersRepository.save(user);
-  }
+  // public async updateUser(user: Users, updateUserDto: UpdateUserDto) {
+  //   Object.assign(user, updateUserDto);
+  //   return this.usersRepository.save(user);
+  // }
 }
