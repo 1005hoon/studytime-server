@@ -8,6 +8,9 @@ export class UserRepository extends Repository<Users> {
     return this.createQueryBuilder('user').orderBy('user.id', 'DESC');
   }
 
+  public getUserByStId(stId: string) {
+    return this.getBaseQuery().andWhere('user.stId = :stId', { stId }).getOne();
+  }
   public getUsersWithFilter(filter: GetUsersDto) {
     let query = this.getBaseQuery();
 

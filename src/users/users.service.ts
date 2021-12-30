@@ -18,6 +18,10 @@ export class UsersService {
   ) {}
 
   public async getUsersWithPagination(getUsersDto: GetUsersDto) {
+    if (getUsersDto.st_id) {
+      return this.usersRepository.getUserByStId(getUsersDto.st_id);
+    }
+
     return paginate(this.usersRepository.getUsersWithFilter(getUsersDto), {
       ...getUsersDto,
     });
