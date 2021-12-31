@@ -1,6 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { FilesService } from 'src/files/files.service';
 import { paginate } from 'src/utils/pagination/paginator';
+import { CreateEventDetailDto } from './dto/create-event-detail.dto';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsDto } from './dto/get-events.dto';
@@ -14,6 +16,7 @@ export class EventsService {
     private readonly eventsRepository: EventsRepository,
     @InjectRepository(EventDetailsRepository)
     private readonly eventDetailsRepository: EventDetailsRepository,
+    private readonly filesService: FilesService,
   ) {}
 
   public async getEventsWithPagination(getEventsDto: GetEventsDto) {
@@ -59,45 +62,17 @@ export class EventsService {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-  // public async createEventAndDetails(
-  //   eventName: string,
-  //   popupDto: CreateEventDto,
-  //   bannerDto: CreateEventDto,
-  //   detailDto: CreateEventDto,
-  // ) {
-  //   const queryRunner = getConnection().createQueryRunner();
-  //   await queryRunner.startTransaction();
 
-  //   try {
-  //     const event = await this.eventsRepository.createEvent(
-  //       queryRunner.manager,
-  //       eventName,
-  //     );
-
-  //     await this.eventDetailsRepository.createEventDetial(
-  //       queryRunner.manager,
-  //       event.id,
-  //       popupDto,
-  //     );
-  //     await this.eventDetailsRepository.createEventDetial(
-  //       queryRunner.manager,
-  //       event.id,
-  //       bannerDto,
-  //     );
-  //     await this.eventDetailsRepository.createEventDetial(
-  //       queryRunner.manager,
-  //       event.id,
-  //       detailDto,
-  //     );
-
-  //     await queryRunner.commitTransaction();
-
-  //     return event;
-  //   } catch (error) {
-  //     await queryRunner.rollbackTransaction();
-  //     throw new HttpException(error, 500);
-  //   } finally {
-  //     await queryRunner.release();
-  //   }
-  // }
+  public async createNewDetail(
+    imageBuffer: Buffer,
+    filename: string,
+    createDetailDto: CreateEventDetailDto,
+  ) {
+    const url = await this.filesService.uploadPublicFile(imageBuffer, filename);
+    const detail = await this.eventDetailsRepository.createEventDetial(
+      url,
+      createDetailDto,
+    );
+    return detail;
+  }
 }

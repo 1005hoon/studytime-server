@@ -1,4 +1,17 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/authentication/guards/jwt.guard';
+import { CreateEventDetailDto } from './dto/create-event-detail.dto';
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsDto } from './dto/get-events.dto';
 import { EventsService } from './events.service';
@@ -18,14 +31,24 @@ export class EventsController {
   }
 
   @Post('/')
+  @UseGuards(JwtAuthGuard)
   createEvent(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.createNewEvent(createEventDto);
+  }
 
-    // return this.eventsService.createEventAndDetails(
-    //   event,
-    //   popupDto,
-    //   bannerDto,
-    //   detailDto,
-    // );
+  @Post('/:id/details')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  async creatEventDetail(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() createDetailDto: CreateEventDetailDto,
+  ) {
+    console.log(createDetailDto);
+
+    return this.eventsService.createNewDetail(
+      image.buffer,
+      image.originalname,
+      createDetailDto,
+    );
   }
 }

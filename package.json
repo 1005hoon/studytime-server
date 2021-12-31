@@ -63,6 +63,7 @@
     "@types/hapi__joi": "^17.1.7",
     "@types/jest": "^26.0.24",
     "@types/morgan": "^1.9.3",
+    "@types/multer": "^1.4.7",
     "@types/node": "^16.0.0",
     "@types/passport-jwt": "^3.0.6",
     "@types/passport-kakao": "^0.2.1",

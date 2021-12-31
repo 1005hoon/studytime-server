@@ -12,8 +12,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { EventsModule } from './events/events.module';
 
 import * as Joi from '@hapi/joi';
-import { APP_FILTER } from '@nestjs/core';
 import { GroupsModule } from './groups/groups.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -34,16 +34,9 @@ import { GroupsModule } from './groups/groups.module';
         OAUTH_KAKAO_CLIENT_ID: Joi.string().required(),
         OAUTH_KAKAO_CLIENT_SECRET: Joi.string().required(),
         OAUTH_KAKAO_REDIRECT_URI: Joi.string().required(),
-        // FIREBASE_ADMIN_TYPE: Joi.string().required(),
-        // FIREBASE_ADMIN_ID: Joi.string().required(),
-        // FIREBASE_ADMIN_PRIVATE_KEY_ID: Joi.string().required(),
-        // FIREBASE_ADMIN_PRIVATE_KEY: Joi.string().required(),
-        // FIREBASE_ADMIN_CLIENT_EMAIL: Joi.string().required(),
-        // FIREBASE_ADMIN_CLIENT_ID: Joi.string().required(),
-        // FIREBASE_ADMIN_AUTH_URI: Joi.string().required(),
-        // FIREBASE_ADMIN_TOKEN_URI: Joi.string().required(),
-        // FIREBASE_ADMIN_AUTH_PROVIDER_X509_CERT_URL: Joi.string().required(),
-        // FIREBASE_ADMIN_CLIENT_X509_CERT_URL: Joi.string().required(),
+
+        AWS_REGION: Joi.string().required(),
+        AWS_PUBLIC_BUCKET_NAME: Joi.string().required(),
         // PUSH_APP_PROJECT_ID: Joi.string().required(),
         // PUSH_APP_CLIENT_EMAIL: Joi.string().required(),
         // PUSH_APP_PRIVATE_KEY: Joi.string().required(),
@@ -54,6 +47,7 @@ import { GroupsModule } from './groups/groups.module';
     EventsModule,
     AuthenticationModule,
     GroupsModule,
+    FilesModule,
     // UsersModule,
     // SlackModule,
     // AdminUserModule,

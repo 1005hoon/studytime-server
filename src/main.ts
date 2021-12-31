@@ -4,6 +4,8 @@ import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
 import { __PROD__ } from './utils/constants';
+import { ConfigService } from '@nestjs/config';
+import { config as awsConfig } from 'aws-sdk';
 
 const allowedOrigins = [
   'http://localhost:3000',
@@ -12,18 +14,6 @@ const allowedOrigins = [
 
 async function bootstrap() {
   const logger = new Logger();
-  // const firebaseAdminConfig: ServiceAccount = {
-  //   projectId: process.env.FIREBASE_ADMIN_ID,
-  //   clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-  //   privateKey: `${process.env.FIREBASE_ADMIN_PRIVATE_KEY}`.replace(
-  //     /\\n/g,
-  //     '\n',
-  //   ),
-  // };
-
-  // admin.initializeApp({
-  //   credential: admin.credential.cert(firebaseAdminConfig),
-  // });
 
   const app = await NestFactory.create(AppModule, {
     bodyParser: true,
@@ -32,7 +22,15 @@ async function bootstrap() {
       credentials: true,
     },
   });
+
   app.use(cookieParser());
+
+  const configService = app.get(ConfigService);
+  awsConfig.update({
+    region: configService.get('AWS_REGION'),
+    accessKeyId: configService.get('AWS_ACCESS_KEY_ID'),
+    secretAccessKey: configService.get('AWS_SECRET_ACCESS_KEY'),
+  });
 
   if (!__PROD__) {
     app.use(morgan('dev'));

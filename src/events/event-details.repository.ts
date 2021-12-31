@@ -4,6 +4,7 @@ import {
   Repository,
   TransactionManager,
 } from 'typeorm';
+import { CreateEventDetailDto } from './dto/create-event-detail.dto';
 import { CreateEventDto } from './dto/create-event.dto';
 import EventDetail from './entities/event-details.entity';
 
@@ -19,18 +20,14 @@ export class EventDetailsRepository extends Repository<EventDetail> {
       .getMany();
   }
 
-  public async createEventDetial(
-    @TransactionManager() em: EntityManager,
-    eventId: number,
-    dto: CreateEventDto,
-  ) {
-    const detail = em.create(EventDetail, {
-      eventId,
-      isDeleted: 0,
-      createdAt: new Date(),
+  public async createEventDetial(img_url: string, dto: CreateEventDetailDto) {
+    const detail = this.create({
       ...dto,
+      img_url,
+      createdAt: new Date(),
+      isDeleted: 0,
     });
-    await em.save(detail);
+    await this.save(detail);
     return detail;
   }
 }
