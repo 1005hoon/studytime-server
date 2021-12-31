@@ -20,8 +20,8 @@ export class EventsRepository extends Repository<Event> {
       return query;
     }
 
-    if (filter.name) {
-      query.andWhere('event.name like :name', { name: `%${filter.name}%` });
+    if (filter.search) {
+      query.andWhere('e.name like :name', { name: `%${filter.search}%` });
     }
 
     return query;

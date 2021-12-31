@@ -18,17 +18,14 @@ export class EventsController {
   }
 
   @Post('/')
-  createEvent(
-    @Body('event') event: string,
-    @Body('popup') popupDto: CreateEventDto,
-    @Body('banner') bannerDto: CreateEventDto,
-    @Body('detail') detailDto: CreateEventDto,
-  ) {
-    return this.eventsService.createEventAndDetails(
-      event,
-      popupDto,
-      bannerDto,
-      detailDto,
-    );
+  createEvent(@Body() createEventDto: CreateEventDto) {
+    return this.eventsService.createNewEvent(createEventDto);
+
+    // return this.eventsService.createEventAndDetails(
+    //   event,
+    //   popupDto,
+    //   bannerDto,
+    //   detailDto,
+    // );
   }
 }

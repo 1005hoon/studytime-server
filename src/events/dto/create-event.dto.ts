@@ -7,19 +7,7 @@ export enum EventTypeEnum {
 }
 
 export class CreateEventDto {
-  @IsEnum(EventTypeEnum)
-  @IsNotEmpty()
-  type: EventTypeEnum;
-
   @IsString()
   @IsNotEmpty()
-  img_url: string;
-
-  @IsString()
-  @IsNotEmpty()
-  url: string;
-
-  @IsString()
-  @IsNotEmpty()
-  description: string;
+  name: string;
 }
