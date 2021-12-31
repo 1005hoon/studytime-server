@@ -31,7 +31,19 @@ export class EventsService {
   }
 
   public async getEventWithDetails(id: number) {
-    return this.eventDetailsRepository.getEventDetailByEventId(id);
+    try {
+      const event = await this.eventsRepository.findOne(id);
+      const details = await this.eventDetailsRepository.getEventDetailByEventId(
+        id,
+      );
+
+      return {
+        event,
+        details,
+      };
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 
   public async createNewEvent(dto: CreateEventDto) {
