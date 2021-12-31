@@ -3,8 +3,6 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as cookieParser from 'cookie-parser';
 import * as morgan from 'morgan';
-import * as admin from 'firebase-admin';
-import { ServiceAccount } from 'firebase-admin';
 import { __PROD__ } from './utils/constants';
 
 const allowedOrigins = [
