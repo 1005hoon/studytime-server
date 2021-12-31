@@ -14,9 +14,11 @@ export class EventDetailsRepository extends Repository<EventDetail> {
   }
 
   public getEventDetailByEventId(id: number) {
-    return this.getEventsQuery()
-      .where('e.eventId = :eventId', { eventId: id })
-      .getMany();
+    return (
+      this.getEventsQuery()
+        // .where('e.eventId = :eventId', { eventId: id })
+        .getMany()
+    );
   }
 
   public async createEventDetial(

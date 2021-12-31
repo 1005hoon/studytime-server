@@ -4,7 +4,7 @@ import {
   Repository,
   TransactionManager,
 } from 'typeorm';
-import { GetEventsFilterDto } from './dto/get-events.filter.dto';
+import { GetEventsDto } from './dto/get-events.dto';
 import Event from './entities/events.entity';
 
 @EntityRepository(Event)
@@ -13,17 +13,11 @@ export class EventsRepository extends Repository<Event> {
     return this.createQueryBuilder('e').orderBy('e.id', 'DESC');
   }
 
-  public getEventsWithFilter(filter: GetEventsFilterDto) {
+  public getEventsWithFilter(filter: GetEventsDto) {
     let query = this.getEventsQuery();
 
     if (!filter) {
       return query;
-    }
-
-    if (filter.isDeleted) {
-      query.andWhere('event.isDeleted = :isDeleted', {
-        isDeleted: filter.isDeleted,
-      });
     }
 
     if (filter.name) {

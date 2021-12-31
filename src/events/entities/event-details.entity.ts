@@ -14,8 +14,11 @@ class EventDetail {
   @Column('varchar', { name: 'img_url', length: 256 })
   img_url: string;
 
-  @Column('varchar', { name: 'url', nullable: true, length: 256 })
-  url: string | null;
+  @Column('varchar', { name: 'url1', nullable: true, length: 256 })
+  url1: string | null;
+
+  @Column('varchar', { name: 'url2', nullable: true, length: 256 })
+  url2: string | null;
 
   @Column('varchar', { name: 'description', length: 256 })
   description: string;

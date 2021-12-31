@@ -15,6 +15,10 @@ export class UserRepository extends Repository<Users> {
   public getUsersWithFilter(filter: GetUsersDto) {
     let query = this.getBaseQuery();
 
+    if (!filter) {
+      return query;
+    }
+
     if (filter.search) {
       query
         .orWhere('user.nickname like :search', { search: `%${filter.search}%` })

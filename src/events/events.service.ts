@@ -3,7 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { paginate, PaginationOption } from 'src/utils/pagination/paginator';
 import { getConnection } from 'typeorm';
 import { CreateEventDto } from './dto/create-event.dto';
-import { GetEventsFilterDto } from './dto/get-events.filter.dto';
+import { GetEventsDto } from './dto/get-events.dto';
 import { EventDetailsRepository } from './event-details.repository';
 import { EventsRepository } from './events.repository';
 
@@ -16,14 +16,10 @@ export class EventsService {
     private readonly eventDetailsRepository: EventDetailsRepository,
   ) {}
 
-  public async getEventsWithPagination(
-    filter: GetEventsFilterDto,
-    paginationOption: PaginationOption,
-  ) {
-    return await paginate(
-      this.eventsRepository.getEventsWithFilter(filter),
-      paginationOption,
-    );
+  public async getEventsWithPagination(getEventsDto: GetEventsDto) {
+    return paginate(this.eventsRepository.getEventsWithFilter(getEventsDto), {
+      ...getEventsDto,
+    });
   }
 
   public async getEventWithDetails(id: number) {
