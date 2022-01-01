@@ -43,8 +43,6 @@ export class EventsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() createDetailDto: CreateEventDetailDto,
   ) {
-    console.log(createDetailDto);
-
     return this.eventsService.createNewDetail(
       image.buffer,
       image.originalname,
