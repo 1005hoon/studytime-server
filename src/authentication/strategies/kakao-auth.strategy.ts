@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { Strategy } from 'passport-kakao';
 import { AuthenticationService } from '../authentication.service';
@@ -20,12 +20,11 @@ export class KakaoStrategy extends PassportStrategy(Strategy, 'kakao') {
     done: any,
   ) {
     const email = profile._json.kakao_account.email;
-    const user = await this.authService.validateUser(email);
-
-    if (!user) {
-      return null;
+    try {
+      const user = await this.authService.validateUser(email);
+      return user;
+    } catch (error) {
+      throw new HttpException(error, error.status);
     }
-
-    return user;
   }
 }

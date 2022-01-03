@@ -56,7 +56,7 @@ export class UsersService {
     }
 
     throw new NotFoundException(
-      `"email: ${email}" 을 사용하는 계정을 찾지 못했습니다. `,
+      `"${email}" 을 사용하는 계정을 찾지 못했습니다. 동기부여 어플리케이션을 통해 회원가입을 진행해주세요.`,
     );
   }
 
