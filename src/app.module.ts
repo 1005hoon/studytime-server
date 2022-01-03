@@ -37,6 +37,9 @@ import { FilesModule } from './files/files.module';
 
         AWS_REGION: Joi.string().required(),
         AWS_PUBLIC_BUCKET_NAME: Joi.string().required(),
+
+        GOOGLE_OAUTH_CLIENT_ID: Joi.string().required(),
+        GOOGLE_OAUTH_CLIENT_SECRET: Joi.string().required(),
         // PUSH_APP_PROJECT_ID: Joi.string().required(),
         // PUSH_APP_CLIENT_EMAIL: Joi.string().required(),
         // PUSH_APP_PRIVATE_KEY: Joi.string().required(),
