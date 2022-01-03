@@ -37,7 +37,7 @@
     "class-validator": "^0.13.1",
     "cookie-parser": "^1.4.6",
     "firebase-admin": "^9.11.1",
-    "googleapis": "^85.0.0",
+    "googleapis": "^92.0.0",
     "morgan": "^1.10.0",
     "mysql": "^2.18.1",
     "passport": "^0.4.1",

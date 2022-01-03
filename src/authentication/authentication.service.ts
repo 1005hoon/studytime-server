@@ -1,24 +1,23 @@
-import {
-  HttpException,
-  HttpStatus,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import TokenPayload from './interfaces/token-payload.interface';
 import { __PROD__ } from 'src/utils/constants';
+import { Auth, google } from 'googleapis';
 
 @Injectable()
 export class AuthenticationService {
-  private logger = new Logger(AuthenticationService.name);
+  googleOAuthClient: Auth.OAuth2Client;
   constructor(
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
     private readonly userService: UsersService,
-  ) {}
+  ) {
+    const clientID = this.configService.get('GOOGLE_OAUTH_CLIENT_ID');
+    const clientSecret = this.configService.get('GOOGLE_OAUTH_CLIENT_SECRET');
+    this.googleOAuthClient = new google.auth.OAuth2(clientID, clientSecret);
+  }
 
   public async validateUser(email: string) {
     if (!email) {
@@ -27,6 +26,22 @@ export class AuthenticationService {
         HttpStatus.BAD_REQUEST,
       );
     }
+
+    const user = await this.userService.getUserByEmail(email);
+
+    if (!user.isAdmin) {
+      throw new HttpException(
+        '관리자 권한이 없습니다. 담당자에게 문의하세요',
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+
+    return user;
+  }
+
+  public async authWithGoogleOAuth(token: string) {
+    const tokenInfo = await this.googleOAuthClient.getTokenInfo(token);
+    const email = tokenInfo.email;
 
     const user = await this.userService.getUserByEmail(email);
 
