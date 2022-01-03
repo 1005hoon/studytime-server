@@ -20,8 +20,6 @@ export class AuthenticationController {
   @UseGuards(JwtAuthGuard)
   @Get()
   authenticate(@CurrentUser() user: Users) {
-    console.log(user);
-
     if (__PROD__ && !user.isAdmin) {
       throw new UnauthorizedException();
     }
