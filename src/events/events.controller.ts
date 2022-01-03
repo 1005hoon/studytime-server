@@ -31,13 +31,13 @@ export class EventsController {
   }
 
   @Post('/')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   createEvent(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.createNewEvent(createEventDto);
   }
 
   @Post('/:id/details')
-  @UseGuards(JwtAuthGuard)
+  // @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async creatEventDetail(
     @UploadedFile() image: Express.Multer.File,
