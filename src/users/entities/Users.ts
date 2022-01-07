@@ -101,11 +101,11 @@ export class Users {
   @Column('date', { name: 'nickname_changed_date', nullable: true })
   nicknameChangedDate: string | null;
 
-  @Column('int', { name: 'time_custom' })
-  timeCustom: number;
+  // @Column('int', { name: 'time_custom' })
+  // timeCustom: number;
 
-  @Column('varchar', { name: 'time_zone', length: 50 })
-  timeZone: string;
+  // @Column('varchar', { name: 'time_zone', length: 50 })
+  // timeZone: string;
 
   // @OneToOne(() => AuthtokenToken, (authtokenToken) => authtokenToken.user)
   // authtokenToken: AuthtokenToken;

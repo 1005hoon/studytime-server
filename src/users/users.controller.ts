@@ -33,6 +33,11 @@ export class UsersController {
     }
   }
 
+  @Get('/:stId')
+  findOne(@Param('stId') stId: string) {
+    return this.usersService.getArticlesAndStudyHoursByStId(stId);
+  }
+
   @Patch(':stId')
   async update(@Param('stId') stId: string, @Body() updateUserDto: any) {
     return this.usersService.updateUser(stId, updateUserDto);

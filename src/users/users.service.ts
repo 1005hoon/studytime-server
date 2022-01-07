@@ -27,6 +27,15 @@ export class UsersService {
     });
   }
 
+  public async getArticlesAndStudyHoursByStId(stId: string) {
+    const user = await this.usersRepository.findOne({ stId });
+    const articles = await this.articlesService.getLastFiveArticlesByUserStId(
+      stId,
+    );
+
+    return { user, articles };
+  }
+
   public async updateUser(stId: string, updateUserDto: UpdateUserDto) {
     return this.usersRepository.updateUserByStId(stId, updateUserDto);
   }
