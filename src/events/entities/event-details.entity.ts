@@ -12,13 +12,7 @@ class EventDetail {
   type: string | null;
 
   @Column('varchar', { name: 'img_url', length: 256 })
-  img_url: string;
-
-  @Column('varchar', { name: 'url1', nullable: true, length: 256 })
-  url1: string | null;
-
-  @Column('varchar', { name: 'url2', nullable: true, length: 256 })
-  url2: string | null;
+  imgUrl: string;
 
   @Column('varchar', { name: 'description', length: 256 })
   description: string;
@@ -27,7 +21,19 @@ class EventDetail {
   createdAt: Date;
 
   @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: number;
+  isDeleted: boolean;
+
+  @Column('varchar', { name: 'url1', length: 256 })
+  url1: string;
+
+  @Column('varchar', { name: 'url2', length: 256 })
+  url2: string;
+
+  @Column('varchar', { name: 'url_button_name1', length: 50 })
+  urlButtonName1: string;
+
+  @Column('varchar', { name: 'url_button_name2', length: 50 })
+  urlButtonName2: string;
 }
 
 export default EventDetail;
