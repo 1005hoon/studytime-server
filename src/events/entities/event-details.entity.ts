@@ -21,7 +21,7 @@ class EventDetail {
   createdAt: Date;
 
   @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: boolean;
+  isDeleted: number;
 
   @Column('varchar', { name: 'url1', length: 256 })
   url1: string;

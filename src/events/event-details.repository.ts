@@ -1,11 +1,5 @@
-import {
-  EntityManager,
-  EntityRepository,
-  Repository,
-  TransactionManager,
-} from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { CreateEventDetailDto } from './dto/create-event-detail.dto';
-import { CreateEventDto } from './dto/create-event.dto';
 import EventDetail from './entities/event-details.entity';
 
 @EntityRepository(EventDetail)
@@ -20,10 +14,10 @@ export class EventDetailsRepository extends Repository<EventDetail> {
       .getMany();
   }
 
-  public async createEventDetial(img_url: string, dto: CreateEventDetailDto) {
+  public async createEventDetial(imgUrl: string, dto: CreateEventDetailDto) {
     const detail = this.create({
       ...dto,
-      img_url,
+      imgUrl,
       createdAt: new Date(),
       isDeleted: 0,
     });
