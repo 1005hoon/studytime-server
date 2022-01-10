@@ -1,4 +1,4 @@
-export class GetEventsDto {
+export class GetPopupsDto {
   page: number = 1;
   count = true;
   limit = 10;

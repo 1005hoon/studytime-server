@@ -18,13 +18,13 @@ export class Popup {
   url: string | null;
 
   @Column('tinyint', { name: 'use_yn', width: 1 })
-  useYn: boolean;
+  useYn: number;
 
   @Column('datetime', { name: 'created_at' })
   createdAt: Date;
 
   @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: boolean;
+  isDeleted: number;
 
   @Column('varchar', { name: 'description', length: 256 })
   description: string;

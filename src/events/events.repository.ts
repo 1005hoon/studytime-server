@@ -13,7 +13,7 @@ export class EventsRepository extends Repository<Event> {
     return this.createQueryBuilder('e').orderBy('e.id', 'DESC');
   }
 
-  public getEventsWithFilter(filter: GetEventsDto) {
+  public getEventsWithFilter(filter?: GetEventsDto) {
     let query = this.getEventsQuery();
 
     if (!filter) {

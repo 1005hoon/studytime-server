@@ -33,6 +33,17 @@ export class EventsService {
     }
   }
 
+  public async getAllEvents() {
+    try {
+      const result = await this.eventsRepository
+        .getEventsWithFilter()
+        .getMany();
+      return result;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
+
   public async getEventWithDetails(id: number) {
     try {
       const event = await this.eventsRepository.findOne(id);
