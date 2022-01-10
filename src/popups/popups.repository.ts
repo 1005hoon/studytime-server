@@ -6,4 +6,10 @@ export class PopupsRepository extends Repository<Popup> {
   private getBaseQuery(): SelectQueryBuilder<Popup> {
     return this.createQueryBuilder('popup').orderBy('popup.id', 'DESC');
   }
+
+  public getPopupsWithFilter() {
+    let query = this.getBaseQuery();
+
+    return query;
+  }
 }
