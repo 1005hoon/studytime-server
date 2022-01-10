@@ -14,6 +14,7 @@ import { EventsModule } from './events/events.module';
 import * as Joi from '@hapi/joi';
 import { GroupsModule } from './groups/groups.module';
 import { FilesModule } from './files/files.module';
+import { PopupsModule } from './popups/popups.module';
 
 @Module({
   imports: [
@@ -51,6 +52,7 @@ import { FilesModule } from './files/files.module';
     AuthenticationModule,
     GroupsModule,
     FilesModule,
+    PopupsModule,
     // UsersModule,
     // SlackModule,
     // AdminUserModule,
