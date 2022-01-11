@@ -75,15 +75,23 @@ export class EventsService {
   }
 
   public async createNewDetail(
-    imageBuffer: Buffer,
-    filename: string,
+    image: Express.Multer.File,
     createDetailDto: CreateEventDetailDto,
   ) {
-    const url = await this.filesService.uploadPublicFile(imageBuffer, filename);
+    let url = '';
+
+    if (image) {
+      url = await this.filesService.uploadPublicFile(
+        image.buffer,
+        image.filename,
+      );
+    }
+
     const detail = await this.eventDetailsRepository.createEventDetial(
       url,
       createDetailDto,
     );
+
     return detail;
   }
 }

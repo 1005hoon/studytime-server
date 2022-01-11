@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseGuards,
@@ -33,7 +34,7 @@ export class PopupsController {
     };
   }
 
-  @Post()
+  @Put()
   @UseGuards(JwtAuthGuard)
   @UseInterceptors(FileInterceptor('image'))
   async createPopup(

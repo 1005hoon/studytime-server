@@ -31,7 +31,7 @@ export class EventsController {
     return this.eventsService.getEventWithDetails(+id);
   }
 
-  @Put('/')
+  @Post('/')
   @UseGuards(JwtAuthGuard)
   createEvent(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.createNewEvent(createEventDto);
@@ -44,10 +44,6 @@ export class EventsController {
     @UploadedFile() image: Express.Multer.File,
     @Body() createDetailDto: CreateEventDetailDto,
   ) {
-    return this.eventsService.createNewDetail(
-      image.buffer,
-      image.originalname,
-      createDetailDto,
-    );
+    return this.eventsService.createNewDetail(image, createDetailDto);
   }
 }
