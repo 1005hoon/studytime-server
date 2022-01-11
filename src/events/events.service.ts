@@ -83,12 +83,13 @@ export class EventsService {
     if (image) {
       url = await this.filesService.uploadPublicFile(
         image.buffer,
-        image.filename,
+        image.originalname,
+        image.mimetype,
       );
     }
 
     const detail = await this.eventDetailsRepository.createEventDetial(
-      url,
+      decodeURI(url),
       createDetailDto,
     );
 

@@ -36,6 +36,7 @@ export class PopupsService {
       url = await this.filesService.uploadPublicFile(
         image.buffer,
         image.originalname,
+        image.mimetype,
       );
     }
 
