@@ -10,7 +10,9 @@ import Event from './entities/events.entity';
 @EntityRepository(Event)
 export class EventsRepository extends Repository<Event> {
   private getEventsQuery() {
-    return this.createQueryBuilder('e').orderBy('e.id', 'DESC');
+    return this.createQueryBuilder('event')
+      .where('event.is_deleted = :isDeleted', { isDeleted: 0 })
+      .orderBy('event.id', 'DESC');
   }
 
   public getEventsWithFilter(filter?: GetEventsDto) {

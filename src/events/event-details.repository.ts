@@ -5,12 +5,14 @@ import EventDetail from './entities/event-details.entity';
 @EntityRepository(EventDetail)
 export class EventDetailsRepository extends Repository<EventDetail> {
   private getEventsQuery() {
-    return this.createQueryBuilder('e').orderBy('e.id', 'DESC');
+    return this.createQueryBuilder('detail')
+      .where('detail.is_deleted = :isDeleted', { isDeleted: 0 })
+      .orderBy('detail.id', 'DESC');
   }
 
   public getEventDetailByEventId(id: number) {
     return this.getEventsQuery()
-      .where('e.eventId = :eventId', { eventId: id })
+      .where('detail.eventId = :eventId', { eventId: id })
       .getMany();
   }
 

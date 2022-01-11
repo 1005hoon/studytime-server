@@ -8,8 +8,8 @@ export class PopupsRepository extends Repository<Popup> {
   private logger = new Logger('POPUP REPOSITORY');
   private getBaseQuery(): SelectQueryBuilder<Popup> {
     return this.createQueryBuilder('popup')
-      .orderBy('popup.id', 'DESC')
-      .where('popup.is_deleted = :isDeleted', { isDeleted: 0 });
+      .where('popup.is_deleted = :isDeleted', { isDeleted: 0 })
+      .orderBy('popup.id', 'DESC');
   }
 
   public getPopupsWithFilter() {
