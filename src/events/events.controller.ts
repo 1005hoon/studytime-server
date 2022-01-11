@@ -4,6 +4,7 @@ import {
   Get,
   Param,
   Post,
+  Put,
   Query,
   UploadedFile,
   UseGuards,
@@ -30,7 +31,7 @@ export class EventsController {
     return this.eventsService.getEventWithDetails(+id);
   }
 
-  @Post('/')
+  @Put('/')
   @UseGuards(JwtAuthGuard)
   createEvent(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.createNewEvent(createEventDto);
