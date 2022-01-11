@@ -1,5 +1,17 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Query,
+  UploadedFile,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { JwtAuthGuard } from 'src/authentication/guards/jwt.guard';
 import { EventsService } from 'src/events/events.service';
+import { CreatePopupDto } from './create-popup.dto';
 import { GetPopupsDto } from './get-popups.dto';
 import { PopupsService } from './popups.service';
 
@@ -19,5 +31,15 @@ export class PopupsController {
       popups,
       events,
     };
+  }
+
+  @Post()
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  async createPopup(
+    @UploadedFile() image: Express.Multer.File,
+    @Body() createPopupDto: CreatePopupDto,
+  ) {
+    return this.popupsService.createNewPopup(image, createPopupDto);
   }
 }
