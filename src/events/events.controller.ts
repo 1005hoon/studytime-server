@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -43,6 +44,12 @@ export class EventsController {
   @UseGuards(JwtAuthGuard)
   updateEvent(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
     return this.eventsService.updateEventById(+id, updateEventDto);
+  }
+
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  deleteEvent(@Param('id') id: string) {
+    return this.eventsService.deleteEventById(+id);
   }
 
   @Post('/:id/details')

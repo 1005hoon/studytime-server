@@ -43,7 +43,11 @@ export class EventsRepository extends Repository<Event> {
     return event;
   }
 
-  public updateEvent(event: Event, dto: UpdateEventDto) {
-    return this.save({ ...event, ...dto });
+  public deleteEvent(event: Event) {
+    return this.createQueryBuilder('event')
+      .update(Event)
+      .set({ isDeleted: 1 })
+      .where('event.id = :id', { id: event.id })
+      .execute();
   }
 }

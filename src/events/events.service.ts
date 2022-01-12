@@ -35,7 +35,7 @@ export class EventsService {
       );
       return result;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
     }
   }
 
@@ -46,13 +46,19 @@ export class EventsService {
         .getMany();
       return result;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
     }
   }
 
   public async getEventWithDetails(id: number) {
     try {
       const event = await this.eventsRepository.findOne(id);
+      if (event.isDeleted) {
+        throw new HttpException(
+          `${event.name}에 해당하는 이벤트가 존재하지 않습니다`,
+          HttpStatus.BAD_REQUEST,
+        );
+      }
       const details = await this.eventDetailsRepository.getEventDetailByEventId(
         id,
       );
@@ -62,7 +68,7 @@ export class EventsService {
         details,
       };
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
     }
   }
 
@@ -76,7 +82,7 @@ export class EventsService {
       await this.eventsRepository.save(event);
       return event;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
     }
   }
 
@@ -112,10 +118,32 @@ export class EventsService {
         );
       }
 
-      const updatedEvent = await this.eventsRepository.updateEvent(event, dto);
+      await this.eventsRepository.update(id, { ...dto });
+      const updatedEvent = await this.eventsRepository.findOne(id);
       return updatedEvent;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
+    }
+  }
+
+  public async deleteEventById(id: number) {
+    try {
+      const event = await this.eventsRepository.findOne(id);
+
+      if (!event) {
+        throw new NotFoundException(
+          `${id}에 해당하는 이벤트를 찾을 수 없습니다`,
+        );
+      }
+
+      const eventResult = await this.eventsRepository.deleteEvent(event);
+
+      const detailResult =
+        await this.eventDetailsRepository.deleteEventDetailByEventId(id);
+    } catch (error) {
+      console.error(error);
+
+      throw new HttpException(error, error.status);
     }
   }
 }

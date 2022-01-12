@@ -1,17 +1,19 @@
+import { UpdateDetailDto } from 'src/event-details/dto/update-detail.dto';
 import { EntityRepository, Repository } from 'typeorm';
 import { CreateEventDetailDto } from './dto/create-event-detail.dto';
+
 import EventDetail from './entities/event-details.entity';
 
 @EntityRepository(EventDetail)
 export class EventDetailsRepository extends Repository<EventDetail> {
-  private getEventsQuery() {
+  private getEventDetailQuery() {
     return this.createQueryBuilder('detail')
       .where('detail.is_deleted = :isDeleted', { isDeleted: 0 })
       .orderBy('detail.id', 'DESC');
   }
 
   public getEventDetailByEventId(id: number) {
-    return this.getEventsQuery()
+    return this.getEventDetailQuery()
       .where('detail.eventId = :eventId', { eventId: id })
       .getMany();
   }
@@ -25,5 +27,13 @@ export class EventDetailsRepository extends Repository<EventDetail> {
     });
     await this.save(detail);
     return detail;
+  }
+
+  public deleteEventDetailByEventId(eventId: number) {
+    return this.createQueryBuilder('detail')
+      .update(EventDetail)
+      .set({ isDeleted: 1 })
+      .where('event_id = :eventId', { eventId })
+      .execute();
   }
 }
