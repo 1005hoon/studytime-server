@@ -5,6 +5,7 @@ import {
   TransactionManager,
 } from 'typeorm';
 import { GetEventsDto } from './dto/get-events.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 import Event from './entities/events.entity';
 
 @EntityRepository(Event)
@@ -40,5 +41,9 @@ export class EventsRepository extends Repository<Event> {
     });
     await em.save(event);
     return event;
+  }
+
+  public updateEvent(event: Event, dto: UpdateEventDto) {
+    return this.save({ ...event, ...dto });
   }
 }

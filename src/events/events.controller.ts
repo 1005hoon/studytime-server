@@ -3,6 +3,7 @@ import {
   Controller,
   Get,
   Param,
+  Patch,
   Post,
   Put,
   Query,
@@ -15,6 +16,7 @@ import { JwtAuthGuard } from 'src/authentication/guards/jwt.guard';
 import { CreateEventDetailDto } from './dto/create-event-detail.dto';
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsDto } from './dto/get-events.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 import { EventsService } from './events.service';
 
 @Controller('/events')
@@ -35,6 +37,12 @@ export class EventsController {
   @UseGuards(JwtAuthGuard)
   createEvent(@Body() createEventDto: CreateEventDto) {
     return this.eventsService.createNewEvent(createEventDto);
+  }
+
+  @Patch('/:id')
+  @UseGuards(JwtAuthGuard)
+  updateEvent(@Param('id') id: string, @Body() updateEventDto: UpdateEventDto) {
+    return this.eventsService.updateEventById(+id, updateEventDto);
   }
 
   @Post('/:id/details')

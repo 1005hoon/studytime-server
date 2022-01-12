@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesService } from 'src/files/files.service';
 import { paginate } from 'src/utils/pagination/paginator';
@@ -6,6 +11,7 @@ import { CreateEventDetailDto } from './dto/create-event-detail.dto';
 
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsDto } from './dto/get-events.dto';
+import { UpdateEventDto } from './dto/update-event.dto';
 import { EventDetailsRepository } from './event-details.repository';
 import { EventsRepository } from './events.repository';
 
@@ -94,5 +100,22 @@ export class EventsService {
     );
 
     return detail;
+  }
+
+  public async updateEventById(id: number, dto: UpdateEventDto) {
+    try {
+      const event = await this.eventsRepository.findOne(id);
+
+      if (!event) {
+        throw new NotFoundException(
+          `${id}에 해당하는 이벤트를 찾을 수 없습니다`,
+        );
+      }
+
+      const updatedEvent = await this.eventsRepository.updateEvent(event, dto);
+      return updatedEvent;
+    } catch (error) {
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
   }
 }
