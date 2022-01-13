@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesService } from 'src/files/files.service';
 import { paginate } from 'src/utils/pagination/paginator';
@@ -25,10 +30,23 @@ export class PopupsService {
 
       return popups;
     } catch (error) {
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+      throw new HttpException(error, error.status);
     }
   }
 
+  public async getPopupById(id: number) {
+    try {
+      const popup = await this.popupsRepository.findOne(id);
+
+      if (!popup || popup.isDeleted === 1) {
+        throw new NotFoundException(`${id}에 해당하는 팝업을 찾지 못했습니다`);
+      }
+
+      return popup;
+    } catch (error) {
+      throw new HttpException(error, error.status);
+    }
+  }
   public async createNewPopup(image: Express.Multer.File, dto: CreatePopupDto) {
     let url = '';
 

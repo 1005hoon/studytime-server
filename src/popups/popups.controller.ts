@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Get,
+  Param,
   Post,
   Put,
   Query,
@@ -23,7 +24,7 @@ export class PopupsController {
     private readonly eventsService: EventsService,
   ) {}
 
-  @Get('')
+  @Get('/')
   async getAll(@Query() dto: GetPopupsDto) {
     const popups = await this.popupsService.getAllPopupsWithPagination(dto);
     const events = await this.eventsService.getAllEvents();
@@ -32,6 +33,11 @@ export class PopupsController {
       popups,
       events,
     };
+  }
+
+  @Get('/:id')
+  async getById(@Param('id') id: string) {
+    return this.popupsService.getPopupById(+id);
   }
 
   @Put()
