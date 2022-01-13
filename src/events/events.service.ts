@@ -136,10 +136,8 @@ export class EventsService {
         );
       }
 
-      const eventResult = await this.eventsRepository.deleteEvent(event);
-
-      const detailResult =
-        await this.eventDetailsRepository.deleteEventDetailByEventId(id);
+      await this.eventsRepository.deleteEvent(event);
+      await this.eventDetailsRepository.deleteEventDetailByEventId(id);
     } catch (error) {
       console.error(error);
 

@@ -3,7 +3,7 @@ import {
   Controller,
   Get,
   Param,
-  Post,
+  Patch,
   Put,
   Query,
   UploadedFile,
@@ -16,6 +16,7 @@ import { EventsService } from 'src/events/events.service';
 import { CreatePopupDto } from './create-popup.dto';
 import { GetPopupsDto } from './get-popups.dto';
 import { PopupsService } from './popups.service';
+import { UpdatePopupDto } from './update-popup.dto';
 
 @Controller('popups')
 export class PopupsController {
@@ -48,5 +49,16 @@ export class PopupsController {
     @Body() createPopupDto: CreatePopupDto,
   ) {
     return this.popupsService.createNewPopup(image, createPopupDto);
+  }
+
+  @Patch('/:id')
+  @UseGuards(JwtAuthGuard)
+  @UseInterceptors(FileInterceptor('image'))
+  async updatePopup(
+    @Param('id') id: string,
+    @UploadedFile() image: Express.Multer.File,
+    @Body() updatePopupDto: UpdatePopupDto,
+  ) {
+    return this.popupsService.updatePopupById(+id, image, updatePopupDto);
   }
 }
