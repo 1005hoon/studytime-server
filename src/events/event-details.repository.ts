@@ -14,7 +14,7 @@ export class EventDetailsRepository extends Repository<EventDetail> {
 
   public getEventDetailByEventId(id: number) {
     return this.getEventDetailQuery()
-      .where('detail.eventId = :eventId', { eventId: id })
+      .andWhere('detail.eventId = :eventId', { eventId: id })
       .getMany();
   }
 
@@ -34,6 +34,14 @@ export class EventDetailsRepository extends Repository<EventDetail> {
       .update(EventDetail)
       .set({ isDeleted: 1 })
       .where('event_id = :eventId', { eventId })
+      .execute();
+  }
+
+  public deleteEventDetailById(id: number) {
+    return this.createQueryBuilder('detail')
+      .update(EventDetail)
+      .set({ isDeleted: 1 })
+      .where('id = :id', { id })
       .execute();
   }
 }

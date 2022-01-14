@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -34,5 +35,11 @@ export class EventDetailsController {
       updateDetailDto,
       image,
     );
+  }
+
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  deleteById(@Param('id') id: string) {
+    return this.detailsService.deleteEventDetailById(+id);
   }
 }

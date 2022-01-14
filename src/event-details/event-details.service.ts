@@ -58,4 +58,12 @@ export class EventDetailsService {
       throw new HttpException(error, error.status);
     }
   }
+
+  public async deleteEventDetailById(id: number) {
+    try {
+      await this.detailsRepository.deleteEventDetailById(id);
+    } catch (error) {
+      throw new HttpException(error, error.status);
+    }
+  }
 }
