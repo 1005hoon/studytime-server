@@ -92,4 +92,12 @@ export class PopupsService {
       throw new HttpException(error, error.status);
     }
   }
+
+  public async deletePopupById(id: number) {
+    try {
+      await this.popupsRepository.removePopup(id);
+    } catch (error) {
+      throw new HttpException(error, error.status);
+    }
+  }
 }

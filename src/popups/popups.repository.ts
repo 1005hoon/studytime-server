@@ -67,4 +67,16 @@ export class PopupsRepository extends Repository<Popup> {
       throw new HttpException(error, error.status);
     }
   }
+
+  public async removePopup(id: number) {
+    try {
+      return await this.createQueryBuilder('popup')
+        .update(Popup)
+        .set({ isDeleted: 1 })
+        .where('popup.id = :id', { id })
+        .execute();
+    } catch (error) {
+      throw new HttpException(error, error.status);
+    }
+  }
 }

@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Patch,
@@ -60,5 +61,11 @@ export class PopupsController {
     @Body() updatePopupDto: UpdatePopupDto,
   ) {
     return this.popupsService.updatePopupById(+id, image, updatePopupDto);
+  }
+
+  @Delete('/:id')
+  @UseGuards(JwtAuthGuard)
+  async deletePopup(@Param('id') id: string) {
+    return this.popupsService.deletePopupById(+id);
   }
 }
