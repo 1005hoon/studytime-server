@@ -57,12 +57,8 @@ export class AuthenticationService {
 
   public getCookieWithJwtAccessToken(userId: number): string {
     const payload: TokenPayload = { userId };
-    const token = this.jwtService.sign(payload, {
-      secret: this.configService.get('JWT_ACCESS_TOKEN_SECRET'),
-      expiresIn: `${this.configService.get(
-        'JWT_ACCESS_TOKEN_EXPIRATION_TIME',
-      )}d`,
-    });
+
+    const token = this.jwtService.sign(payload);
 
     return `Authentication=${token}; HttpOnly; ${
       __PROD__ && 'SameSite=None; Secure=True'
