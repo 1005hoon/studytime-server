@@ -51,14 +51,4 @@ export class EventsController {
   deleteEvent(@Param('id') id: string) {
     return this.eventsService.deleteEventById(+id);
   }
-
-  @Post('/:id/details')
-  @UseGuards(JwtAuthGuard)
-  @UseInterceptors(FileInterceptor('image'))
-  async creatEventDetail(
-    @UploadedFile() image: Express.Multer.File,
-    @Body() createDetailDto: CreateEventDetailDto,
-  ) {
-    return this.eventsService.createNewDetail(image, createDetailDto);
-  }
 }

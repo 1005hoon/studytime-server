@@ -8,6 +8,7 @@ import { FilesService } from '../files/files.service';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EventDetailsRepository } from 'src/events/event-details.repository';
 import { UpdateDetailDto } from './dto/update-detail.dto';
+import { CreateEventDetailDto } from 'src/events/dto/create-event-detail.dto';
 
 @Injectable()
 export class EventDetailsService {
@@ -30,6 +31,28 @@ export class EventDetailsService {
     } catch (error) {
       throw new HttpException(error, error.status);
     }
+  }
+
+  public async createEventDetail(
+    image: Express.Multer.File,
+    dto: CreateEventDetailDto,
+  ) {
+    let url = '';
+
+    if (image) {
+      url = await this.filesService.uploadPublicFile(
+        image.buffer,
+        image.originalname,
+        image.mimetype,
+      );
+    }
+
+    const detail = await this.detailsRepository.createEventDetial(
+      decodeURI(url),
+      dto,
+    );
+
+    return detail;
   }
 
   public async updateEventDetailById(

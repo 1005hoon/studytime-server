@@ -1,8 +1,10 @@
 import {
+  ClassSerializerInterceptor,
   HttpException,
   HttpStatus,
   Injectable,
   NotFoundException,
+  UseInterceptors,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { FilesService } from 'src/files/files.service';
@@ -16,6 +18,7 @@ import { EventDetailsRepository } from './event-details.repository';
 import { EventsRepository } from './events.repository';
 
 @Injectable()
+@UseInterceptors(ClassSerializerInterceptor)
 export class EventsService {
   constructor(
     @InjectRepository(EventsRepository)
