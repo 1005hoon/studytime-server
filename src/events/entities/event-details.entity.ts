@@ -14,15 +14,6 @@ class EventDetail {
   @Column('varchar', { name: 'img_url', length: 256 })
   imgUrl: string;
 
-  @Column('varchar', { name: 'description', length: 256 })
-  description: string;
-
-  @Column('datetime', { name: 'created_at' })
-  createdAt: Date;
-
-  @Column('tinyint', { name: 'is_deleted', width: 1 })
-  isDeleted: number;
-
   @Column('varchar', { name: 'url1', length: 256 })
   url1: string;
 
@@ -34,6 +25,18 @@ class EventDetail {
 
   @Column('varchar', { name: 'url_button_name2', length: 50 })
   urlButtonName2: string;
+
+  @Column('varchar', { name: 'description', length: 256 })
+  description: string;
+
+  @Column('datetime', { name: 'created_at' })
+  createdAt: Date;
+
+  @Column('boolean', { name: 'in_progress', default: false })
+  inProgress: boolean;
+
+  @Column('tinyint', { name: 'is_deleted', width: 1 })
+  isDeleted: number;
 }
 
 export default EventDetail;

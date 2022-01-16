@@ -17,6 +17,7 @@ import { EventDetailsService } from './event-details.service';
 @Controller('event-details')
 export class EventDetailsController {
   constructor(private readonly detailsService: EventDetailsService) {}
+
   @Get('/:id')
   getById(@Param('id') id: string) {
     return this.detailsService.getEventDetailById(+id);
