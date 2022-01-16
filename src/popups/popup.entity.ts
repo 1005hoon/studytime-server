@@ -5,6 +5,9 @@ export class Popup {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
+  @Column('varchar', { name: 'title', nullable: false, length: 20 })
+  title: string;
+
   @Column('varchar', { name: 'screen', nullable: true, length: 20 })
   screen: string | null;
 
