@@ -6,15 +6,11 @@ import {
   Param,
   Patch,
   Post,
-  Put,
   Query,
-  UploadedFile,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
 import { JwtAuthGuard } from 'src/authentication/guards/jwt.guard';
-import { CreateEventDetailDto } from './dto/create-event-detail.dto';
+
 import { CreateEventDto } from './dto/create-event.dto';
 import { GetEventsDto } from './dto/get-events.dto';
 import { UpdateEventDto } from './dto/update-event.dto';
