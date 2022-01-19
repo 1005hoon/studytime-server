@@ -6,10 +6,6 @@ export class CreateEventDetailDto {
   @Transform(({ value }) => Number.parseInt(value))
   eventId: number;
 
-  @IsBoolean()
-  @Transform(({ value }) => value === 'true')
-  inProgress: boolean;
-
   @IsString()
   type: string;
 

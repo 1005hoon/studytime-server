@@ -47,12 +47,16 @@ export class EventDetailsService {
       );
     }
 
-    const detail = await this.detailsRepository.createEventDetial(
-      decodeURI(url),
-      dto,
-    );
+    try {
+      const detail = await this.detailsRepository.createEventDetial(
+        decodeURI(url),
+        dto,
+      );
 
-    return detail;
+      return detail;
+    } catch (error) {
+      throw new HttpException(error, error.status);
+    }
   }
 
   public async updateEventDetailById(
