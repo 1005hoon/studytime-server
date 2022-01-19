@@ -11,6 +11,9 @@ class Event {
   @Column('datetime', { name: 'created_at' })
   createdAt: Date;
 
+  @Column('boolean', { name: 'in_progress', default: false })
+  inProgress: boolean;
+
   @Column('tinyint', { name: 'is_deleted', width: 1 })
   isDeleted: number;
 }

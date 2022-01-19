@@ -1,4 +1,13 @@
+import { Transform } from 'class-transformer';
+import { IsBoolean, IsString } from 'class-validator';
+
 export class UpdateEventDto {
-  name?: string;
+  @IsString()
+  name: string;
+
+  @IsBoolean()
+  @Transform(({ value }) => value === 'true')
+  inProgress: boolean;
+
   isDeleted?: number;
 }

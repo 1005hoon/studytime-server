@@ -36,6 +36,7 @@ export class EventsService {
           ...getEventsDto,
         },
       );
+
       return result;
     } catch (error) {
       throw new HttpException(error, error.status);
@@ -56,12 +57,18 @@ export class EventsService {
   public async getEventWithDetails(id: number) {
     try {
       const event = await this.eventsRepository.findOne(id);
+      if (!event) {
+        throw new NotFoundException(
+          `${id}에 해당하는 이벤트를 찾지 못했습니다`,
+        );
+      }
       if (event.isDeleted) {
         throw new HttpException(
           `${event.name}에 해당하는 이벤트가 존재하지 않습니다`,
           HttpStatus.BAD_REQUEST,
         );
       }
+
       const details = await this.eventDetailsRepository.getEventDetailByEventId(
         id,
       );
@@ -79,6 +86,7 @@ export class EventsService {
     const event = this.eventsRepository.create({
       ...dto,
       isDeleted: 0,
+      inProgress: true,
       createdAt: new Date(),
     });
     try {
