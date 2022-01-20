@@ -10,6 +10,7 @@ import { config as awsConfig } from 'aws-sdk';
 const allowedOrigins = [
   'http://localhost:3000',
   'https://dgby-admin-client-stage.herokuapp.com',
+  'https://dgby-admin-client-prod.herokuapp.com',
 ];
 
 async function bootstrap() {
